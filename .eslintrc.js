@@ -33,7 +33,7 @@ module.exports = {
     'padded-blocks': 0,
     'newline-after-var': 0,
     'spaced-comment': 0,
-    'max-len': [2, 125, 4, { ignoreUrls: true }],
+    'max-len': [2, 125, 4, {ignoreUrls: true}],
     'array-bracket-spacing': [2, 'never'],
     'computed-property-spacing': [2, 'never'],
     'no-trailing-spaces': [
@@ -42,7 +42,7 @@ module.exports = {
         skipBlankLines: true
       }
     ],
-    'object-curly-spacing': [2, 'always'],
+    'object-curly-spacing': [2, 'never'],
     'generator-star-spacing': 0,
     'babel/new-cap': 2,
     'import/no-unresolved': [

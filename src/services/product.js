@@ -47,7 +47,7 @@ export async function getProduct(opts = {}) {
     const queryObj = {...opts}
   
     try {
-      return await BiddingProduct.deleteOne(queryObj)
+      return await Product.deleteOne(queryObj)
     }
     catch (err) {
       throw new ServerError({name: 'Something error when delete bidding product.', err})

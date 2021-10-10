@@ -2,28 +2,15 @@ import keyMirror from 'keymirror'
 
 export const USER_ROLES = keyMirror({
   ADMIN: null,
-  USER: null
+  USER: null,
+  SELLER: null,
+  BIDDER: null
 })
 
 export const USER_STATUS = keyMirror({
   VERIFIED: null,
   NOT_VERIFIED: null,
   DISABLED: null
-})
-
-export const TEST_STATUS = keyMirror({
-  STARTED: null,
-  COMPLETED: null
-})
-
-export const TEST_KIT_STATUS = keyMirror({
-  NOT_START: null,
-  ENDED: null
-})
-
-export const QUESTION_TYPES = keyMirror({
-  MULTIPLE: null,
-  SINGLE: null
 })
 
 export const HTTP_STATUS_CODES = {

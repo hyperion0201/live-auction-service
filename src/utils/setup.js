@@ -1,6 +1,6 @@
-import { DB_NAME, DB_PASSWORD, DB_USER } from '../configs'
 import debug from 'debug'
 import mongoose from 'mongoose'
+import {DB_NAME, DB_PASSWORD, DB_USER} from '../configs'
 
 export function setupLogStash(options) {
   const {debugNamespace = '*'} = options

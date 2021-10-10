@@ -5,9 +5,9 @@ const schema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   },
-  product: {
+  biddingProduct: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Product'
+    ref: 'BiddingProduct'
   },
   biddingPrice: Number
 })

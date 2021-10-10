@@ -4,4 +4,4 @@ const schema = mongoose.Schema({
   name: String
 })
 
-export default mongoose.model("SubCategory", schema)
+export default mongoose.model('SubCategory', schema)

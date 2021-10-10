@@ -43,7 +43,7 @@ export async function getUser(opts = {}) {
 export async function isUserWithEmailExist(userEmail) {
   try {
     return await User.findOne({
-        email: userEmail
+      email: userEmail
     })
   }
   catch (err) {
@@ -126,7 +126,7 @@ export async function isAdmin(userOrId) {
   let userObj = userOrId
   if (isNumber(userOrId)) {
     userObj = await getUser({
-        id: userOrId
+      id: userOrId
     })
   }
 

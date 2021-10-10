@@ -7,17 +7,17 @@ const schema = mongoose.Schema({
   extraImages: Array,
   buyNowPrice: Number,
   description: String,
-    status: {
-        type: String,
-        enum: ['SOLD', 'HOLDING', 'AVAILABLE'],
-        default: 'AVAILABLE'
-    },
-    stepPrice: Number,
-    initPrice: Number,
-    categories: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'ProductCategory'
-    }]
+  status: {
+    type: String,
+    enum: ['SOLD', 'HOLDING', 'AVAILABLE'],
+    default: 'AVAILABLE'
+  },
+  stepPrice: Number,
+  initPrice: Number,
+  categories: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'ProductCategory'
+  }]
 })
 
-export default mongoose.model("Product", schema)
+export default mongoose.model('Product', schema)

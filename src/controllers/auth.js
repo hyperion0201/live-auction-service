@@ -1,5 +1,4 @@
 /* eslint-disable camelcase */
-/* eslint-disable babel/new-cap */
 import express from 'express'
 import get from 'lodash/get'
 import pick from 'lodash/pick'

@@ -3,11 +3,11 @@ import isNumber from 'lodash/isNumber'
 import User from '../models/user'
 import * as enums from '../utils/constants'
 import ServerError from '../utils/custom-error'
-import { hashPasswordSync } from '../utils/password'
+import {hashPasswordSync} from '../utils/password'
 
 export async function createUser(payload = {}, opts = {}) {
-  const { password } = payload
-  const { setVerified = false } = opts
+  const {password} = payload
+  const {setVerified = false} = opts
   try {
     const hashed = password ? hashPasswordSync(password) : null
     return await User.create({

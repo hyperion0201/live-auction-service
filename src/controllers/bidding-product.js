@@ -1,10 +1,20 @@
-/* eslint-disable babel/new-cap */
 import express from 'express'
 import {authenticate} from '../middlewares/auth'
 import * as serviceBiddingProduct from '../services/bidding-product'
 import {HTTP_STATUS_CODES} from '../utils/constants'
 
 const router = express.Router()
+
+router.post('/', async (req, res, next) => {
+  const payload = req.body
+  try {
+    const biddingProduct = await serviceBiddingProduct.createBiddingProduct(payload)
+    res.json(biddingProduct)
+  }
+  catch (err) {
+    next(err)
+  }
+})
 
 router.get('/', authenticate(), async (req, res, next) => {
   try {
@@ -19,7 +29,7 @@ router.get('/', authenticate(), async (req, res, next) => {
 router.get('/:id', authenticate(), async (req, res, next) => {
   const id = +req.params.id
   try {
-    const biddingProduct = await serviceBiddingProduct.getBiddingProduct({where: {id}})
+    const biddingProduct = await serviceBiddingProduct.getBiddingProduct({_id: id})
     if (!biddingProduct) {
       return res.status(HTTP_STATUS_CODES.NOT_FOUND).json({message: 'not found'})
     }
@@ -34,7 +44,7 @@ router.patch('/:id', authenticate(), async (req, res, next) => {
   const id = +req.params.id
   const payload = req.body
   try {
-    await serviceBiddingProduct.updateBiddingProduct({where: {id}}, payload)
+    await serviceBiddingProduct.updateBiddingProduct({_id: id}, payload)
     res.json({message: 'Update success'})
   }
   catch (err) {
@@ -45,10 +55,15 @@ router.patch('/:id', authenticate(), async (req, res, next) => {
 router.delete('/:id', authenticate(), async (req, res, next) => {
   const id = +req.params.id
   try {
-    await serviceBiddingProduct.deleteBiddingProduct({where: {id}})
+    await serviceBiddingProduct.deleteBiddingProduct({_id: id})
     res.json({message: 'Delete success'})
   }
   catch (err) {
     next(err)
   }
 })
+
+export default {
+  prefix: '/v1/bidding-product',
+  routerInstance: router
+}

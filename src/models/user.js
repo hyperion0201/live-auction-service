@@ -1,9 +1,9 @@
 import mongoose from 'mongoose'
-import { USER_ROLES, USER_STATUS } from '../utils/constants'
+import {USER_ROLES, USER_STATUS} from '../utils/constants'
 
 const schema = mongoose.Schema({
-	username: String,
-	dateOfBirth: Date,
+  username: String,
+  dateOfBirth: Date,
   email: String,
   fullName: String,
   password: String,
@@ -19,4 +19,4 @@ const schema = mongoose.Schema({
   }
 })
 
-export default mongoose.model("User", schema)
+export default mongoose.model('User', schema)

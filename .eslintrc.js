@@ -44,7 +44,7 @@ module.exports = {
     ],
     'object-curly-spacing': [2, 'never'],
     'generator-star-spacing': 0,
-    'babel/new-cap': 2,
+    'babel/new-cap': [2, {capIsNew: false}],
     'import/no-unresolved': [
       2,
       {

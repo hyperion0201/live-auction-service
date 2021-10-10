@@ -31,3 +31,25 @@ export async function getAllBiddingProduct(opts = {}) {
     throw new ServerError({ name: 'Something error when get all bidding product.', err })
   }
 }
+
+export async function updateBiddingProduct(opts = {}, payload) {
+  const queryObj = { ...opts }
+
+  try {
+    return await BiddingProduct.updateOne(queryObj, payload)
+  }
+  catch (err) {
+    throw new ServerError({ name: 'Something error when update bidding product.', err })
+  }
+}
+
+export async function deleteBiddingProduct(opts = {}) {
+  const queryObj = { ...opts }
+
+  try {
+    return await BiddingProduct.deleteOne(queryObj)
+  }
+  catch (err) {
+    throw new ServerError({ name: 'Something error when delete bidding product.', err })
+  }
+}

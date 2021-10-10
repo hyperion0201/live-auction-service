@@ -21,7 +21,7 @@ export async function getSubCategory(opts = {}) {
     }
   }
   
-  export async function getSubCategory(opts = {}) {
+  export async function getAllSubCategory(opts = {}) {
     const queryObj = {...opts}
   
     try {

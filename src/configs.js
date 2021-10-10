@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 // declare env variables that required for app
 
-export const SERVER_PORT = Number(process.env.SERVER_PORT) || 3001
+export const SERVER_PORT = Number(process.env.SERVER_PORT) || 5001
 
 export const DEBUGGING_ENABLED = process.env.DEBUGGING_ENABLED === 'true'
 
@@ -17,7 +17,7 @@ export const DB_USER = process.env.DB_USER || 'hyperion0201'
 
 export const DB_PASSWORD = process.env.DB_PASSWORD || 'postgres'
 
-export const DB_NAME = process.env.DB_NAME || 'exam'
+export const DB_NAME = process.env.DB_NAME || 'liveauction'
 
 export const DB_PORT = Number(process.env.DB_PORT) || 5432
 

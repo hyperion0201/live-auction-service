@@ -5,9 +5,21 @@ const schema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Product'
   },
+  status: {
+    type: String,
+    enum: ['SOLD', 'AVAILABLE', 'EXPIRED'],
+    default: 'AVAILABLE'
+  },
+  stepPrice: Number,
+  initPrice: Number,
+  buyNowPrice: Number,
   currentPrice: Number,
   publicTime: Date,
-  endTime: Date
+  endTime: Date,
+  winner: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }
 })
 
 export default mongoose.model('BiddingProduct', schema)

@@ -12,7 +12,7 @@ const DB_CONNECT_URL = `mongodb+srv://${DB_USER}:${DB_PASSWORD}@live-auction-db.
 export async function initDatabaseConnection() {
   const ns = 'atlas:connection'
   debug.log(ns, 'Connecting to database server...')
-  return mongoose.connect(DB_CONNECT_URL, {useNewUrlParser: true, useUnifiedTopology: true}).then(() => {
+  return mongoose.connect(DB_CONNECT_URL, {useNewUrlParser: true}).then(() => {
     debug.log(ns, 'Connection granted.')
   }).catch(err => debug.log(ns, 'Connection rejected.', err))
 }

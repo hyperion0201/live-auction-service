@@ -8,7 +8,7 @@ import ServerError from '../utils/custom-error'
 
 const OAuth2 = google.auth.OAuth2
 
-const baseUrl = 'https://wiflyhomework.com/exam-api'
+const baseUrl = 'https://wiflyhomework.com/live-auction-api'
 
 const GOOGLE_OAUTH2_CONFIGURATION = {
   JWTsecret: JWT_SECRET,
@@ -16,7 +16,7 @@ const GOOGLE_OAUTH2_CONFIGURATION = {
   port: SERVER_PORT,
   oauth2Credentials: {
     client_id: GOOGLE_CLIENT_ID,
-    project_id: 'basic-exam-service-auth',
+    project_id: 'live-auction-auth',
     auth_uri: 'https://accounts.google.com/o/oauth2/auth',
     token_uri: 'https://oauth2.googleapis.com/token',
     auth_provider_x509_cert_url: 'https://www.googleapis.com/oauth2/v1/certs',

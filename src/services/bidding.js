@@ -1,6 +1,7 @@
 import get from 'lodash/get'
 import {updateBiddingProduct, getAllBiddingProduct} from './bidding-product'
 import {createBiddingRecord} from './bidding-record'
+import sendEmail from './email'
 
 export async function registerNewBidding(payload = {}) {
   const biddingProductId = get(payload, 'biddingProductId')
@@ -16,11 +17,9 @@ export async function registerNewBidding(payload = {}) {
     biddingProduct: biddingProductId
   })
 
-  // to-do: send email to: seller, highest bid owner, this bidder.
-
   return getAllBiddingProduct()
 }
 
 export async function markBiddingAsCompleted(payload = {}) {
-
+    
 }

@@ -5,15 +5,7 @@ const schema = mongoose.Schema({
   imageUrl: Date,
   primaryImage: String,
   extraImages: Array,
-  buyNowPrice: Number,
   description: String,
-  status: {
-    type: String,
-    enum: ['SOLD', 'HOLDING', 'AVAILABLE'],
-    default: 'AVAILABLE'
-  },
-  stepPrice: Number,
-  initPrice: Number,
   categories: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'ProductCategory'

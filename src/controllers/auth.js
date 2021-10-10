@@ -145,7 +145,7 @@ router.post('/register', async (req, res, next) => {
     const user = await userService.createUser(payload)
     const userEmail = get(user, 'email')
     const code = encrypt(userEmail, RESET_PASSWORD_SECRET)
-    const verifyUrl = `https://wiflyhomework.com/exam-api/v1/auth/verification?code=${code}`
+    const verifyUrl = `https://wiflyhomework.com/live-auction-api/v1/auth/verification?code=${code}`
     await sendEmail(userEmail,
       '[Live Auction] - Verify your new account',
       `Hi.

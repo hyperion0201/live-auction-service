@@ -3,11 +3,11 @@ import isNumber from 'lodash/isNumber'
 import User from '../models/user'
 import * as enums from '../utils/constants'
 import ServerError from '../utils/custom-error'
-import {hashPasswordSync} from '../utils/password'
+import { hashPasswordSync } from '../utils/password'
 
 export async function createUser(payload = {}, opts = {}) {
-  const {password} = payload
-  const {setVerified = false} = opts
+  const { password } = payload
+  const { setVerified = false } = opts
   try {
     const hashed = password ? hashPasswordSync(password) : null
     return await User.create({
@@ -43,7 +43,7 @@ export async function getUser(opts = {}) {
 export async function isUserWithEmailExist(userEmail) {
   try {
     return await User.findOne({
-        email: userEmail
+      email: userEmail
     })
   }
   catch (err) {
@@ -126,7 +126,7 @@ export async function isAdmin(userOrId) {
   let userObj = userOrId
   if (isNumber(userOrId)) {
     userObj = await getUser({
-        id: userOrId
+      id: userOrId
     })
   }
 

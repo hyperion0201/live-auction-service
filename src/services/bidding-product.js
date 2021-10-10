@@ -5,7 +5,8 @@ import ServerError from '../utils/custom-error'
 export async function createBiddingProduct(payload = {}, opts = {}) {
   try {
     return await BiddingProduct.create({ ...payload })
-  } catch (err) {
+  }
+  catch (err) {
     throw new ServerError({ name: 'Something error when create bidding product.', err })
   }
 }
@@ -15,7 +16,8 @@ export async function getBiddingProduct(opts = {}) {
 
   try {
     return await BiddingProduct.findOne(queryObj)
-  } catch (err) {
+  }
+  catch (err) {
     throw new ServerError({ name: 'Something error when create user.', err })
   }
 }

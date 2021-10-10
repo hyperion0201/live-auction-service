@@ -36,9 +36,7 @@ export function authenticate(options = {}) {
     try {
       const payload = await verifyToken(token)
       const user = await getUser({
-        where: {
-          id: payload.id
-        }
+        _id: payload.id
       })
       if (!user) {
         return res.status(HTTP_STATUS_CODES.BAD_REQUEST).send({

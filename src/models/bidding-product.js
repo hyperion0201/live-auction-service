@@ -6,8 +6,8 @@ const schema = mongoose.Schema({
     ref: 'Product'
   },
   currentPrice: Number,
-  publicTime: Number,
-  endTime: Number
+  publicTime: Date,
+  endTime: Date
 })
 
 export default mongoose.model('BiddingProduct', schema)

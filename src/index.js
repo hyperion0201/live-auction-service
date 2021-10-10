@@ -1,16 +1,35 @@
 import cors from 'cors'
 import debug from 'debug'
 import express from 'express'
+import http from 'http'
+import {Server} from 'socket.io'
 import {ROOT_APP_NAMESPACE, SERVER_PORT} from './configs'
 import * as routers from './controllers'
 import {authenticate} from './middlewares/auth'
 import {errorHandler} from './middlewares/error'
+import {registerClient, deregisterClient} from './services/socket'
 import {setupLogStash, initDatabaseConnection, combineRouters} from './utils/setup'
-
 import 'express-async-errors'
 
 async function initialize(cb) {
   const app = express()
+  const server = http.Server(app)
+  const io = new Server(server)
+  const ns = 'socket-server'
+
+  // socket event emiiters and handlers
+  // due to rush time, i can't have enough time to refactor it
+  // so i have to handle all events here (anti-pattern)
+
+  io.on('connection', (socket) => {
+    debug.log(ns, 'Client connected: ', socket.id)
+    registerClient(socket)
+
+    // when server receive a bidding event
+    socket.on('bidding', payload => {
+      // todo: update db, then broadcast to all active clients
+    })
+  })
 
   app.use(cors())
 
@@ -30,7 +49,7 @@ async function initialize(cb) {
 
   // error middleware should be register at the end of express instance.
   app.use(errorHandler)
-  app.listen(SERVER_PORT, cb)
+  server.listen(SERVER_PORT, cb)
 }
 
 async function main() {

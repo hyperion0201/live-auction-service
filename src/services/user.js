@@ -126,7 +126,7 @@ export async function isAdmin(userOrId) {
   let userObj = userOrId
   if (isNumber(userOrId)) {
     userObj = await getUser({
-      id: userOrId
+      _id: userOrId
     })
   }
 

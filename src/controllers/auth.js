@@ -73,7 +73,7 @@ router.get('/google/callback', async (req, res, next) => {
 
 router.post('/login', async (req, res, next) => {
   const {email = '', password = ''} = req.body
-  const user = await userService.getUser({where: {email}})
+  const user = await userService.getUser({email})
 
   if (!user) {
     return res.status(HTTP_STATUS_CODES.BAD_REQUEST).send({
@@ -119,7 +119,7 @@ router.get('/verification', async (req, res, next) => {
   const code = req.query.code
   try {
     const email = decrypt(code, RESET_PASSWORD_SECRET)
-    const user = await userService.getUser({where: {email}})
+    const user = await userService.getUser({email})
 
     if (!user) {
       return res.status(HTTP_STATUS_CODES.BAD_REQUEST).send({
@@ -128,7 +128,7 @@ router.get('/verification', async (req, res, next) => {
     }
 
     await userService.updateUser(
-      {where: {email}},
+      {email},
       {status: enums.USER_STATUS.VERIFIED}
     )
 
@@ -147,7 +147,7 @@ router.post('/register', async (req, res, next) => {
     const code = encrypt(userEmail, RESET_PASSWORD_SECRET)
     const verifyUrl = `https://wiflyhomework.com/exam-api/v1/auth/verification?code=${code}`
     await sendEmail(userEmail,
-      '[Basic Exam] - Verify your new account',
+      '[Live Auction] - Verify your new account',
       `Hi.
        Please go to this link to verify your account: ${verifyUrl}
        Thanks.`
@@ -173,7 +173,7 @@ router.post('/change-password', authenticate(), async (req, res, next) => {
   }
 
   try {
-    await userService.updatePassword({where: {id: userId}}, newPass)
+    await userService.updatePassword({_id: userId}, newPass)
 
     return res.json({
       message: 'Change password successfully.'
@@ -186,7 +186,7 @@ router.post('/change-password', authenticate(), async (req, res, next) => {
 
 router.post('/reset-password', async (req, res, next) => {
   const {email} = req.body
-  const user = await userService.getUser({where: {email}})
+  const user = await userService.getUser({email})
 
   if (!user) {
     return res.status(HTTP_STATUS_CODES.BAD_REQUEST).send({
@@ -197,13 +197,13 @@ router.post('/reset-password', async (req, res, next) => {
   const resetPassword = generateResetPassword()
   try {
     await userService.updatePassword(
-      {where: {id: user.id}},
+      {_id: user._id},
       resetPassword
     )
 
     await sendEmail(
       email,
-      '[Basic Exam] - Password reset',
+      '[Live Auction] - Password reset',
       `Hi.
      We've reset your password.
      Your new password is : ${resetPassword}.
@@ -244,11 +244,11 @@ router.patch('/admin/:id',
     const {role, status} = get(req, 'body')
 
     try {
-      const user = await userService.getUser({where: {id: idUser}})
+      const user = await userService.getUser({_id: idUser})
 
       if (!user) return res.status(HTTP_STATUS_CODES.NOT_FOUND).json({message: 'user not found'})
 
-      await userService.updateUser({where: {id: idUser}}, {role, status})
+      await userService.updateUser({_id: idUser}, {role, status})
 
       res.json({message: 'Update success'})
     }
@@ -261,9 +261,7 @@ router.get('/', authenticate(), async (req, res, next) => {
   const userId = get(req, 'user.id')
 
   try {
-    const user = await userService.getUser({
-      where: {id: userId}
-    })
+    const user = await userService.getUser({_id: userId})
 
     res.json(pick(user, ['fullname', 'email', 'role']))
   }
@@ -277,7 +275,7 @@ router.patch('/', authenticate(), async (req, res, next) => {
   const infoUserUpdate = get(req, 'body')
 
   try {
-    await userService.updateUser({where: {id: userId}}, infoUserUpdate)
+    await userService.updateUser({_id: userId}, infoUserUpdate)
 
     res.json({message: 'Update success'})
   }

@@ -1,4 +1,3 @@
-import get from 'lodash/get'
 import BiddingProduct from '../models/bidding-product'
 import ServerError from '../utils/custom-error'
 
@@ -18,6 +17,17 @@ export async function getBiddingProduct(opts = {}) {
     return await BiddingProduct.findOne(queryObj)
   }
   catch (err) {
-    throw new ServerError({ name: 'Something error when create user.', err })
+    throw new ServerError({ name: 'Something error when get detail bidding product.', err })
+  }
+}
+
+export async function getAllBiddingProduct(opts = {}) {
+  const queryObj = { ...opts }
+
+  try {
+    return await BiddingProduct.find(queryObj)
+  }
+  catch (err) {
+    throw new ServerError({ name: 'Something error when get all bidding product.', err })
   }
 }

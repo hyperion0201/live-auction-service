@@ -3,7 +3,7 @@
 
 export * as user from './user'
 export * as product from './product'
-export * as productCategory from './product-category'
+export * as productCategory from './category'
 export * as productSubCategory from './sub-category'
 export * as biddingRecord from './bidding-record'
 export * as biddingProduct from './bidding-product'

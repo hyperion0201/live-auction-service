@@ -8,7 +8,7 @@ const ENCRYPTION_ALGORITHM = 'seed'
 
 export function encrypt(payload, secret) {
   // Create the secure token
-  const cipher = cryptoNode.createCipher(ENCRYPTION_ALGORITHM, secret)
+  const cipher = cryptoNode.createCipheriv(ENCRYPTION_ALGORITHM, secret)
 
   // Use 'hex' encoding for URI-encoding compatibility
   const token = cipher.update(JSON.stringify(payload), 'utf8', 'hex') +
@@ -18,7 +18,7 @@ export function encrypt(payload, secret) {
 }
 
 export function decrypt(token, secret) {
-  const decipher = cryptoNode.createDecipher(ENCRYPTION_ALGORITHM, secret)
+  const decipher = cryptoNode.createDecipheriv(ENCRYPTION_ALGORITHM, secret)
   let payloadText
 
   try {

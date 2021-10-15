@@ -2,6 +2,7 @@ import express from 'express'
 import {authenticate} from '../middlewares/auth'
 import * as serviceBiddingRecord from '../services/bidding-record'
 import {HTTP_STATUS_CODES} from '../utils/constants'
+import {VERSION_API} from "../constants"
 
 const router = express.Router()
 
@@ -64,6 +65,6 @@ router.delete('/:id', authenticate(), async (req, res, next) => {
 })
 
 export default {
-  prefix: '/v1/bidding-record',
+  prefix: `${VERSION_API}/bidding-record`,
   routerInstance: router
 }

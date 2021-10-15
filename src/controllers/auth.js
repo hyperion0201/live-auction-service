@@ -13,6 +13,7 @@ import {encrypt, decrypt} from '../utils/crypto'
 //import ServerError from '../utils/custom-error'
 import {generateAccessToken} from '../utils/jwt'
 import {verifyPasswordSync, generateResetPassword} from '../utils/password'
+import {VERSION_API} from "../constants"
 
 const DASHBOARD_URL = 'https://online-exam-2021.herokuapp.com'
 
@@ -285,6 +286,6 @@ router.patch('/', authenticate(), async (req, res, next) => {
 })
 
 export default {
-  prefix: '/v1/auth',
+  prefix: `${VERSION_API}/auth`,
   routerInstance: router
 }

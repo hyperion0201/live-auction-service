@@ -2,6 +2,7 @@ import express from "express";
 import { authenticate } from "../middlewares/auth";
 import * as categoryService from "../services/category";
 import { HTTP_STATUS_CODES } from "../utils/constants";
+import {VERSION_API} from "../constants"
 
 const router = express.Router();
 
@@ -63,6 +64,6 @@ router.delete("/:id", authenticate(), async (req, res, next) => {
 });
 
 export default {
-  prefix: "/v1/categories",
+  prefix: `${VERSION_API}/categories`,
   routerInstance: router,
 };

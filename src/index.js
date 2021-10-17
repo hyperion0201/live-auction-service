@@ -14,7 +14,12 @@ import 'express-async-errors'
 async function initialize(cb) {
   const app = express()
   const server = http.Server(app)
-  const io = new Server(server)
+  const io = new Server(server, {
+    cors: {
+      origin: 'http://localhost:3000',
+      methods: ['GET', 'POST']
+    }
+  })
   const ns = 'socket-server'
 
   // socket event emiiters and handlers

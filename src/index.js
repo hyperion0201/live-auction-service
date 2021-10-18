@@ -32,6 +32,12 @@ async function initialize(cb) {
 
     // when server receive a bidding event
     socket.on('bidding', payload => {
+      debug.log('payload bidding: ', payload)
+      // const {
+      //   productID="",
+      //   priceBid="",
+      //   userID="",
+      // }=payload
       // todo: update db, then broadcast to all active clients
     })
   })

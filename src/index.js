@@ -40,6 +40,16 @@ async function initialize(cb) {
       // }=payload
       // todo: update db, then broadcast to all active clients
     })
+
+    // when server receive a buy-now event
+    socket.on('buy-now', payload => {
+      debug.log('payload buy-now: ', payload)
+      // const {
+      //   productID="",
+      //   userID="",
+      // }=payload
+      // todo: update db, then broadcast to all active clients
+    })
   })
 
   app.use(cors())

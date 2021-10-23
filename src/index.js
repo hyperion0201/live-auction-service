@@ -49,6 +49,10 @@ async function initialize(cb) {
       //   userID="",
       // }=payload
       // todo: update db, then broadcast to all active clients
+
+      socket.broadcast.emit('sold-out-product', {
+        productID: 200
+      })
     })
   })
 

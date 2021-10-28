@@ -1,9 +1,0 @@
-{
-    "eslint.alwaysShowStatus": true,
-    // "eslint.run": "onSave",
-    // "eslint.runtime": "",
-    "eslint.format.enable": true,
-    "editor.codeActionsOnSave": {
-        "source.fixAll.eslint": true
-    }
-}

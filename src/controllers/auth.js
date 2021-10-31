@@ -3,6 +3,7 @@ import express from 'express'
 import get from 'lodash/get'
 import pick from 'lodash/pick'
 import {RESET_PASSWORD_SECRET} from '../configs'
+import {VERSION_API} from '../constants'
 import {authenticate, requireStatusRole} from '../middlewares/auth'
 import sendEmail from '../services/email'
 import GoogleOAuth2 from '../services/google-auth'
@@ -13,7 +14,6 @@ import {encrypt, decrypt} from '../utils/crypto'
 //import ServerError from '../utils/custom-error'
 import {generateAccessToken} from '../utils/jwt'
 import {verifyPasswordSync, generateResetPassword} from '../utils/password'
-import {VERSION_API} from "../constants"
 
 const DASHBOARD_URL = 'https://online-exam-2021.herokuapp.com'
 

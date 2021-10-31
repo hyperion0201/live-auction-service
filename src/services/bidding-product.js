@@ -15,6 +15,8 @@ export async function getBiddingProduct(opts = {}) {
 
   try {
     return await BiddingProduct.findOne(queryObj)
+      .populate('product')
+      .populate('winner')
   }
   catch (err) {
     throw new ServerError({name: 'Something error when get detail bidding product.', err})
@@ -26,6 +28,8 @@ export async function getAllBiddingProduct(opts = {}) {
 
   try {
     return await BiddingProduct.find(queryObj)
+      .populate('product')
+      .populate('winner')
   }
   catch (err) {
     throw new ServerError({name: 'Something error when get all bidding product.', err})

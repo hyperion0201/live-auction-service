@@ -7,6 +7,7 @@ import {ROOT_APP_NAMESPACE, SERVER_PORT} from './configs'
 import * as routers from './controllers'
 import {authenticate} from './middlewares/auth'
 import {errorHandler} from './middlewares/error'
+import {registerNewBidding} from './services/bidding'
 import {registerClient, deregisterClient} from './services/socket'
 import {setupLogStash, initDatabaseConnection, combineRouters} from './utils/setup'
 import 'express-async-errors'
@@ -31,13 +32,16 @@ async function initialize(cb) {
     registerClient(socket)
 
     // when server receive a bidding event
-    socket.on('bidding', payload => {
+    socket.on('bidding', async payload => {
       debug.log('payload bidding: ', payload)
       // const {
       //   productID="",
       //   priceBid="",
       //   userID="",
       // }=payload
+      
+      const result = await registerNewBidding(payload)
+      debug.log(`${ns}:bidding`, result)
       // todo: update db, then broadcast to all active clients
     })
 

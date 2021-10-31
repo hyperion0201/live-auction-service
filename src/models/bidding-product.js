@@ -10,6 +10,7 @@ const schema = mongoose.Schema({
     enum: ['SOLD', 'AVAILABLE', 'EXPIRED'],
     default: 'AVAILABLE'
   },
+  allowBuyNow: Boolean,
   stepPrice: Number,
   initPrice: Number,
   buyNowPrice: Number,

@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 
 const schema = mongoose.Schema({
   name: String,
-  imageUrl: Date,
+  imageUrl: String,
   primaryImage: String,
   extraImages: Array,
   description: String,

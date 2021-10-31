@@ -1,1 +1,6 @@
 export {default as authRouter} from './auth'
+export {default as categoriesRouter} from './category'
+export {default as subCategoriesRouter} from './sub-category'
+export {default as biddingProductsRouter} from './bidding-product'
+export {default as biddingRecordRouter} from './bidding-record'
+export {default as productsRouter} from './product'

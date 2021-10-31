@@ -1,5 +1,5 @@
 import SubCategory from '../models/sub-category.js'
-import ServerError from '..utils/custom-error.js'
+import ServerError from '../utils/custom-error.js'
 
 export async function createSubCategory(payload = {}, opts = {}) {
     try {

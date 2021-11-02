@@ -264,7 +264,7 @@ router.get('/', authenticate(), async (req, res, next) => {
   try {
     const user = await userService.getUser({_id: userId})
 
-    res.json(pick(user, ['_id', 'fullname', 'email', 'role']))
+    res.json(pick(user, ['_id', 'fullName', 'email', 'role']))
   }
   catch (err) {
     next(err)

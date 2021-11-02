@@ -196,22 +196,19 @@ router.post('/reset-password', async (req, res, next) => {
   }
 
   const resetPassword = generateResetPassword()
+  
   try {
-    await userService.updatePassword(
-      {_id: user._id},
-      resetPassword
-    )
+    await userService.updatePassword({_id: user._id}, resetPassword)
 
-    await sendEmail(
-      email,
-      '[Live Auction] - Password reset',
-      `Hi.
-     We've reset your password.
-     Your new password is : ${resetPassword}.
-     Please re-login.
-     Thanks.
-     `
-    )
+    const title = '[Live Auction] - Password reset'
+
+    const content = `Hi.
+    we've reset your password.
+    Your new password is: ${resetPassword}.
+    Please re-login.
+    Thanks.`
+
+    await sendEmail(email, title, content)
 
     res.json({message: 'Reset password successfully'})
   }

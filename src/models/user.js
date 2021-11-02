@@ -2,9 +2,8 @@ import mongoose from 'mongoose'
 import {USER_ROLES, USER_STATUS} from '../utils/constants'
 
 const schema = mongoose.Schema({
-  username: String,
-  dateOfBirth: Date,
   email: String,
+  username: String,
   fullName: String,
   password: String,
   role: {

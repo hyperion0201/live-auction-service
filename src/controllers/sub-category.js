@@ -8,6 +8,7 @@ const router = express.Router()
 
 router.post('/', async (req, res, next) => {
   const payload = req.body
+  
   try {
     const subCategory = await serviceSubCategory.createSubCategory(payload)
     res.json(subCategory)
@@ -28,7 +29,7 @@ router.get('/', authenticate(), async (req, res, next) => {
 })
 
 router.get('/:id', authenticate(), async (req, res, next) => {
-  const id = +req.params.id
+  const id = req.params.id
   try {
     const subCategory = await serviceSubCategory.getSubCategory({_id: id})
     if (!subCategory) {
@@ -42,7 +43,7 @@ router.get('/:id', authenticate(), async (req, res, next) => {
 })
 
 router.patch('/:id', authenticate(), async (req, res, next) => {
-  const id = +req.params.id
+  const id = req.params.id
   const payload = req.body
   try {
     await serviceSubCategory.updateSubCategory({_id: id}, payload)
@@ -54,7 +55,7 @@ router.patch('/:id', authenticate(), async (req, res, next) => {
 })
 
 router.delete('/:id', authenticate(), async (req, res, next) => {
-  const id = +req.params.id
+  const id = req.params.id
   try {
     await serviceSubCategory.deleteSubCategory({_id: id})
     res.json({message: 'Delete success'})

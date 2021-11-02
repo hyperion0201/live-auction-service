@@ -6,10 +6,10 @@ const schema = mongoose.Schema({
   primaryImage: String,
   extraImages: Array,
   description: String,
-  categories: [{
+  subCategory: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'ProductCategory'
-  }]
+    ref: 'SubCategory'
+  }
 })
 
 export default mongoose.model('Product', schema)

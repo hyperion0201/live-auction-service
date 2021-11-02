@@ -16,7 +16,7 @@ router.get('/', async (req, res, next) => {
 })
 
 router.get('/:id', async (req, res, next) => {
-  const id = +req.params.id
+  const id = req.params.id
 
   try {
     const category = await categoryService.getByID({_id: id})
@@ -44,7 +44,7 @@ router.post('/', async (req, res, next) => {
 })
 
 router.patch('/:id', async (req, res, next) => {
-  const id = +req.params.id
+  const id = req.params.id
   const payload = req.body
   try {
     await categoryService.updateOneCategory({_id: id}, payload)
@@ -56,7 +56,7 @@ router.patch('/:id', async (req, res, next) => {
 })
 
 router.delete('/:id', async (req, res, next) => {
-  const id = +req.params.id
+  const id = req.params.id
 
   try {
     await categoryService.deleteOneCategory({_id: id})

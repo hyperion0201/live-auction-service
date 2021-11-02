@@ -2,10 +2,10 @@ import mongoose from 'mongoose'
 
 const schema = mongoose.Schema({
   name: String,
-  categories: [{
+  category: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Category'
-  }]
+    ref: 'ProductCategory'
+  }
 })
 
 export default mongoose.model('SubCategory', schema)

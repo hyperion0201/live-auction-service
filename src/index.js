@@ -2,14 +2,19 @@ import cors from 'cors'
 import debug from 'debug'
 import express from 'express'
 import http from 'http'
+import get from 'lodash/get'
+import mongoose from 'mongoose'
 import {Server} from 'socket.io'
 import {ROOT_APP_NAMESPACE, SERVER_PORT} from './configs'
 import * as routers from './controllers'
 import {authenticate} from './middlewares/auth'
 import {errorHandler} from './middlewares/error'
 import {registerNewBidding} from './services/bidding'
+import {getAllBiddingRecord} from './services/bidding-record'
+import sendEmail from './services/email'
 import {registerClient, deregisterClient} from './services/socket'
 import {setupLogStash, initDatabaseConnection, combineRouters} from './utils/setup'
+
 import 'express-async-errors'
 
 async function initialize(cb) {
@@ -36,10 +41,31 @@ async function initialize(cb) {
       debug.log('payload bidding: ', payload)
       
       const result = await registerNewBidding(payload)
+      
       debug.log(`${ns}:bidding`, result)
       // todo: update db, then broadcast to all active clients
       socket.broadcast.emit('new-bidding', {
         payload: result
+      })
+
+      // find all user have at least 1 bid to current product
+      const {biddingProductId} = payload
+      const records = await getAllBiddingRecord({
+        biddingProduct: mongoose.Types.ObjectId(biddingProductId)
+      })
+      return records.forEach((record) => {
+        const userEmail = get(record, 'user.email')
+        const productName = get(record, 'biddingProduct.product.name')
+
+        sendEmail(userEmail,
+          '[Live Auction] - New bidding on your product',
+          `Hi.
+           You received this email because a new bidding was placed on the product you've bidded on.
+           
+           Info:
+               Product name: ${productName}
+               New bidding price: ${payload.price}
+        `)
       })
     })
 

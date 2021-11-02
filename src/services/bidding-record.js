@@ -16,7 +16,12 @@ export async function getBiddingRecord(opts = {}) {
   try {
     return await BiddingRecord.findOne(queryObj)
       .populate('user')
-      .populate('biddingProduct')
+      .populate({
+        path: 'biddingProduct',
+        populate: {
+          path: 'product'
+        }
+      })
   }
   catch (err) {
     throw new ServerError({name: 'Something error when get detail bidding record.', err})

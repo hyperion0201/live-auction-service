@@ -34,15 +34,13 @@ async function initialize(cb) {
     // when server receive a bidding event
     socket.on('bidding', async payload => {
       debug.log('payload bidding: ', payload)
-      // const {
-      //   productID="",
-      //   priceBid="",
-      //   userID="",
-      // }=payload
       
       const result = await registerNewBidding(payload)
       debug.log(`${ns}:bidding`, result)
       // todo: update db, then broadcast to all active clients
+      socket.broadcast.emit('new-bidding', {
+        payload: result
+      })
     })
 
     // when server receive a buy-now event

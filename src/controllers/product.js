@@ -119,6 +119,31 @@ router.post(
   }
 )
 
+router.post(
+  '/upload-extra-images',
+  authenticate(),
+  upload.array('images'),
+  async (req, res, next) => {
+    const productId = get(req, 'body.productId')
+
+    const paths = req.files.map((file) => {
+      return `${BASE_API_URL}/public/uploads/${productId}/${file.filename}`
+    })
+
+    try {
+      await serviceProduct.updateProduct({_id: mongoose.Types.ObjectId(productId)}, {
+        $push: {extraImages: {$each: paths}}
+      })
+      res.json({
+        message: 'uploaded.'
+      })
+    }
+    catch (err) {
+      next(err)
+    }
+  }
+)
+
 export default {
   prefix: `${VERSION_API}/product`,
   routerInstance: router

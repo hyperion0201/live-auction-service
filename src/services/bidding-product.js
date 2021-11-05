@@ -43,6 +43,7 @@ export async function updateBiddingProduct(opts = {}, payload) {
     return await BiddingProduct.updateOne(queryObj, payload)
   }
   catch (err) {
+    
     throw new ServerError({name: 'Something error when update bidding product.', err})
   }
 }

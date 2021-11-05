@@ -4,6 +4,7 @@ import express from 'express'
 import http from 'http'
 import get from 'lodash/get'
 import mongoose from 'mongoose'
+import path from 'path'
 import {Server} from 'socket.io'
 import {ROOT_APP_NAMESPACE, SERVER_PORT} from './configs'
 import * as routers from './controllers'
@@ -86,6 +87,10 @@ async function initialize(cb) {
 
   app.use(cors())
 
+  // serve static files in public folder
+  // since i don't have enough money to store files in other storage services.
+  debug.log(ns, 'Upload dir : ', path.join(__dirname, '../public/uploads'))
+  app.use('/public/uploads', express.static(path.join(__dirname, '../public/uploads')))
   // register middlewares
   app.use(express.json())
   combineRouters(app, routers)

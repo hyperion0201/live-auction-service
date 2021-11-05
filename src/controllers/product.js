@@ -1,8 +1,36 @@
 import express from 'express'
+import fs from 'fs'
+import get from 'lodash/get'
+import mongoose from 'mongoose'
+import multer from 'multer'
+import path from 'path'
+import {v4 as uuidv4} from 'uuid'
+import {BASE_API_URL} from '../configs'
 import {VERSION_API} from '../constants'
 import {authenticate} from '../middlewares/auth'
 import * as serviceProduct from '../services/product.js'
 import {HTTP_STATUS_CODES} from '../utils/constants'
+
+const storageConfiguration = multer.diskStorage({
+  destination: function (req, file, cb) {
+    
+    const productId = get(req, 'body.productId')
+    const destinationPath = path.join(__dirname, `../../public/uploads/${productId}`)
+
+    const isDestinationPathExists = fs.existsSync(destinationPath)
+    if (!isDestinationPathExists) {
+      fs.mkdirSync(destinationPath)
+    }
+    cb(null, destinationPath)
+  },
+  filename: function (req, file, cb) {
+    const fileName = uuidv4()
+    cb(null, fileName + path.extname(file.originalname))
+  }
+})
+const upload = multer({
+  storage: storageConfiguration
+})
 
 const router = express.Router()
 
@@ -63,6 +91,33 @@ router.delete('/:id', authenticate(), async (req, res, next) => {
     next(err)
   }
 })
+
+router.post(
+  '/upload-image',
+  authenticate(),
+  upload.single('image'),
+  async (req, res, next) => {
+    const productId = get(req, 'body.productId')
+    // we just store the full path to database,
+    // for retrieving products, we populate themselves with current api base url.
+    const fullPath = `${BASE_API_URL}/public/uploads/${productId}/${req.file.filename}`
+
+    try {
+
+      await serviceProduct.updateProduct({_id: mongoose.Types.ObjectId(productId)}, {
+        imageUrl: fullPath
+      })
+
+      res.json({
+        message: 'uploaded.'
+      })
+    }
+
+    catch (err) {
+      next(err)
+    }
+  }
+)
 
 export default {
   prefix: `${VERSION_API}/product`,

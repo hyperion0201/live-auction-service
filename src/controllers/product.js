@@ -56,7 +56,7 @@ router.get('/', authenticate(), async (req, res, next) => {
 })
 
 router.get('/:id', authenticate(), async (req, res, next) => {
-  const id = +req.params.id
+  const id = req.params.id
   try {
     const product = await serviceProduct.getProduct({_id: id})
     if (!product) {
@@ -70,7 +70,7 @@ router.get('/:id', authenticate(), async (req, res, next) => {
 })
 
 router.patch('/:id', authenticate(), async (req, res, next) => {
-  const id = +req.params.id
+  const id = req.params.id
   const payload = req.body
   try {
     await serviceProduct.updateProduct({_id: id}, payload)
@@ -82,7 +82,7 @@ router.patch('/:id', authenticate(), async (req, res, next) => {
 })
 
 router.delete('/:id', authenticate(), async (req, res, next) => {
-  const id = +req.params.id
+  const id = req.params.id
   try {
     await serviceProduct.deleteProduct({_id: id})
     res.json({message: 'Delete success'})

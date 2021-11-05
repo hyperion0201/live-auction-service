@@ -28,7 +28,7 @@ router.get('/', authenticate(), async (req, res, next) => {
 })
 
 router.get('/:id', authenticate(), async (req, res, next) => {
-  const id = +req.params.id
+  const id = req.params.id
   try {
     const biddingRecord = await serviceBiddingRecord.getBiddingRecord({_id: id})
     if (!biddingRecord) {
@@ -42,7 +42,7 @@ router.get('/:id', authenticate(), async (req, res, next) => {
 })
 
 router.patch('/:id', authenticate(), async (req, res, next) => {
-  const id = +req.params.id
+  const id = req.params.id
   const payload = req.body
   try {
     await serviceBiddingRecord.updateBiddingRecord({_id: id}, payload)
@@ -54,7 +54,7 @@ router.patch('/:id', authenticate(), async (req, res, next) => {
 })
 
 router.delete('/:id', authenticate(), async (req, res, next) => {
-  const id = +req.params.id
+  const id = req.params.id
   try {
     await serviceBiddingRecord.deleteBiddingRecord({_id: id})
     res.json({message: 'Delete success'})

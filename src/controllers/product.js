@@ -19,6 +19,7 @@ const storageConfiguration = multer.diskStorage({
   destination: function (req, file, cb) {
     
     const productId = get(req, 'body.productId')
+    
     const destinationPath = path.join(__dirname, `../../public/uploads/${productId}`)
 
     const isDestinationPathExists = fs.existsSync(destinationPath)
@@ -118,7 +119,7 @@ router.get('/search', async (req, res, next) => {
 })
 
 router.get('/:id', authenticate(), async (req, res, next) => {
-  const id = +req.params.id
+  const id = req.params.id
   try {
     const product = await serviceProduct.getProduct({_id: id})
     if (!product) {
@@ -132,7 +133,7 @@ router.get('/:id', authenticate(), async (req, res, next) => {
 })
 
 router.patch('/:id', authenticate(), async (req, res, next) => {
-  const id = +req.params.id
+  const id = req.params.id
   const payload = req.body
   try {
     await serviceProduct.updateProduct({_id: id}, payload)
@@ -144,7 +145,7 @@ router.patch('/:id', authenticate(), async (req, res, next) => {
 })
 
 router.delete('/:id', authenticate(), async (req, res, next) => {
-  const id = +req.params.id
+  const id = req.params.id
   try {
     await serviceProduct.deleteProduct({_id: id})
     res.json({message: 'Delete success'})
@@ -189,6 +190,7 @@ router.post(
     const productId = get(req, 'body.productId')
 
     const paths = req.files.map((file) => {
+      
       return `${BASE_API_URL}/public/uploads/${productId}/${file.filename}`
     })
 

@@ -238,7 +238,7 @@ router.patch('/admin/:id',
   authenticate({requiredAdmin: true}),
   requireStatusRole(),
   async (req, res, next) => {
-    const idUser = +req.params.id
+    const idUser = req.params.id
     const {role, status} = get(req, 'body')
 
     try {

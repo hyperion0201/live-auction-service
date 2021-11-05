@@ -28,7 +28,7 @@ router.get('/', authenticate(), async (req, res, next) => {
 })
 
 router.get('/:id', authenticate(), async (req, res, next) => {
-  const id = +req.params.id
+  const id = req.params.id
   try {
     const biddingProduct = await serviceBiddingProduct.getBiddingProduct({_id: id})
     if (!biddingProduct) {
@@ -42,7 +42,7 @@ router.get('/:id', authenticate(), async (req, res, next) => {
 })
 
 router.patch('/:id', authenticate(), async (req, res, next) => {
-  const id = +req.params.id
+  const id = req.params.id
   const payload = req.body
   try {
     await serviceBiddingProduct.updateBiddingProduct({_id: id}, payload)
@@ -54,7 +54,7 @@ router.patch('/:id', authenticate(), async (req, res, next) => {
 })
 
 router.delete('/:id', authenticate(), async (req, res, next) => {
-  const id = +req.params.id
+  const id = req.params.id
   try {
     await serviceBiddingProduct.deleteBiddingProduct({_id: id})
     res.json({message: 'Delete success'})

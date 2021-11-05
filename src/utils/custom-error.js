@@ -9,7 +9,6 @@ class ServerError extends Error {
   }
 
   logDetail() {
-    console.log('need to go herer ? ')
     debug.log(this.ns, this.name, JSON.stringify(this.err))
   }
 }

@@ -122,7 +122,7 @@ router.post(
 router.post(
   '/upload-extra-images',
   authenticate(),
-  upload.array('images'),
+  upload.array('images', 5),
   async (req, res, next) => {
     const productId = get(req, 'body.productId')
 

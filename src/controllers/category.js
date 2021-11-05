@@ -1,11 +1,12 @@
 import express from 'express'
 import {VERSION_API} from '../constants'
+import {authenticate} from '../middlewares/auth'
 import * as categoryService from '../services/category'
 import {HTTP_STATUS_CODES} from '../utils/constants'
 
 const router = express.Router()
 
-router.get('/', async (req, res, next) => {
+router.get('/', authenticate(), async (req, res, next) => {
   try {
     const categories = await categoryService.getCategories()
     res.json(categories)
@@ -15,7 +16,7 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-router.get('/:id', async (req, res, next) => {
+router.get('/:id', authenticate(), async (req, res, next) => {
   const id = req.params.id
 
   try {
@@ -32,7 +33,7 @@ router.get('/:id', async (req, res, next) => {
   }
 })
 
-router.post('/', async (req, res, next) => {
+router.post('/', authenticate(), async (req, res, next) => {
   const payload = req.body
   try {
     const newCategory = await categoryService.addNew(payload)
@@ -43,7 +44,7 @@ router.post('/', async (req, res, next) => {
   }
 })
 
-router.patch('/:id', async (req, res, next) => {
+router.patch('/:id', authenticate(), async (req, res, next) => {
   const id = req.params.id
   const payload = req.body
   try {
@@ -55,7 +56,7 @@ router.patch('/:id', async (req, res, next) => {
   }
 })
 
-router.delete('/:id', async (req, res, next) => {
+router.delete('/:id', authenticate(), async (req, res, next) => {
   const id = req.params.id
 
   try {

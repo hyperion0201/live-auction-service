@@ -5,10 +5,17 @@ const schema = mongoose.Schema({
   imageUrl: String,
   extraImages: Array,
   description: String,
+  category: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'ProductCategory'
+  },
   subCategory: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'SubCategory'
   }
 })
+
+// Support full text search with product name
+schema.index({name: 'text'})
 
 export default mongoose.model('Product', schema)

@@ -8,4 +8,7 @@ const schema = mongoose.Schema({
   }
 })
 
+// Support full text search by sub-category name
+schema.index({name: 'text'})
+
 export default mongoose.model('SubCategory', schema)

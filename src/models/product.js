@@ -5,6 +5,10 @@ const schema = mongoose.Schema({
   imageUrl: String,
   extraImages: Array,
   description: String,
+  createBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  },
   category: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'ProductCategory'

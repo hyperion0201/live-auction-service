@@ -51,6 +51,7 @@ router.post('/', async (req, res, next) => {
 })
 
 router.get('/', authenticate(), async (req, res, next) => {
+  
   try {
     const product = await serviceProduct.getAllProduct()
     res.json(product)

@@ -41,6 +41,20 @@ router.get('/:id', authenticate(), async (req, res, next) => {
   }
 })
 
+router.get('/product/:id', authenticate(), async (req, res, next) => {
+  const id = req.params.id
+  try {
+    const biddingRecord = await serviceBiddingRecord.getBiddingRecord({biddingProduct: id})
+    if (!biddingRecord) {
+      return res.status(HTTP_STATUS_CODES.NOT_FOUND).json({message: 'not found'})
+    }
+    res.json(biddingRecord)
+  }
+  catch (err) {
+    next(err)
+  }
+})
+
 router.patch('/:id', authenticate(), async (req, res, next) => {
   const id = req.params.id
   const payload = req.body

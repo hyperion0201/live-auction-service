@@ -1,7 +1,7 @@
 import express from 'express'
 import fs from 'fs'
 import get from 'lodash/get'
-import uniqBy from 'lodash/uniqBy'
+
 import mongoose from 'mongoose'
 import multer from 'multer'
 import path from 'path'
@@ -9,9 +9,7 @@ import {v4 as uuidv4} from 'uuid'
 import {BASE_API_URL} from '../configs'
 import {VERSION_API} from '../constants'
 import {authenticate} from '../middlewares/auth'
-import Category from '../models/category'
-import Product from '../models/product.js'
-import SubCategory from '../models/sub-category'
+
 import * as serviceProduct from '../services/product.js'
 import {HTTP_STATUS_CODES} from '../utils/constants'
 
@@ -56,64 +54,6 @@ router.get('/', authenticate(), async (req, res, next) => {
   try {
     const product = await serviceProduct.getAllProduct(opts)
     res.json(product)
-  }
-  catch (err) {
-    next(err)
-  }
-})
-
-/*
-  This router for global searching product.
-  This mean this is the common route for fetching/filtering products based on text value.
-  That could be anything, product name, category, sub category
- */
-router.get('/search', async (req, res, next) => {
-  const fullText = get(req, 'query.name', '')
-  try {
-    // Hack: i used the raw model here for faster query typing.
-
-    // NOTE: with these referencing schemas,
-    // full-text-search technique can't be applied for only one schema and refer to others.
-    // I need to perform 3 query in Product, Category, Sub-category to get full products
-    // that matched with the search value.
-
-    // Phase 1: find in Product
-    const products = await Product.find({
-      $text: {$search: fullText}
-    }).populate({
-      path: 'subCategory',
-      populate: {
-        path: 'category'
-      }
-    })
-
-    // Phase 2: find in Category
-    const categoriesFound = await Category.find({$text: {$search: fullText}})
-    const categoryIds = categoriesFound.map((category) => category._id)
-    const productsByCategories = await Product.find({
-      category: {$in: categoryIds}
-    }).populate({
-      path: 'subCategory',
-      populate: {
-        path: 'category'
-      }
-    })
-
-    // Phase 3: find in SubCategory
-    const subCategoriesFound = await SubCategory.find({$text: {$search: fullText}})
-    const subCategoryIds = subCategoriesFound.map((subCategory) => subCategory._id)
-    const productsBySubCategories = await Product.find({
-      subCategory: {$in: subCategoryIds}
-    }).populate({
-      path: 'subCategory',
-      populate: {
-        path: 'category'
-      }
-    })
-
-    res.json({
-      data: uniqBy([...products, ...productsByCategories, ...productsBySubCategories], (item) => item._id.toString())
-    })
   }
   catch (err) {
     next(err)

@@ -3,7 +3,6 @@ import debug from 'debug'
 import express from 'express'
 import http from 'http'
 import get from 'lodash/get'
-
 import path from 'path'
 import {Server} from 'socket.io'
 import {ROOT_APP_NAMESPACE, SERVER_PORT} from './configs'
@@ -14,6 +13,7 @@ import {registerNewBidding} from './services/bidding'
 import * as biddingProductService from './services/bidding-product'
 import sendEmail from './services/email'
 import {registerClient, deregisterClient} from './services/socket'
+import * as taskScheduler from './services/task-scheduler'
 import * as userService from './services/user'
 import {setupLogStash, initDatabaseConnection, combineRouters} from './utils/setup'
 
@@ -76,7 +76,7 @@ async function initialize(cb) {
       sendEmail(newUser.email,
         '[Live Auction] - Bidding successfully on product',
         `Hi.
-           Congratulation on your bidding. You are the highest paid for this product.
+           Congratulation on your bidding. You are the current winner, but you should still wait for the bidding time to end.
            
            Info:
                Product name: ${productName}
@@ -155,6 +155,8 @@ async function main() {
     await initialize(() => {
       debug.log(ROOT_APP_NAMESPACE, 'Server run at ' + SERVER_PORT)
     })
+
+    taskScheduler.startBackgroundService()
   }
   catch (err) {
     debug.log(ROOT_APP_NAMESPACE, 'Something error when start app! ', err)

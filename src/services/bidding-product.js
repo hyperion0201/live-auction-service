@@ -33,7 +33,12 @@ export async function getAllBiddingProduct(opts = {}) {
 
   try {
     return await BiddingProduct.find(queryObj)
-      .populate('product')
+      .populate({
+        path: 'product',
+        populate: {
+          path: 'createBy'
+        }
+      })
       .populate('winner')
   }
   catch (err) {

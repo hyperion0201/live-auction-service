@@ -40,6 +40,18 @@ export async function getAllBiddingProduct(opts = {}) {
           path: 'createBy'
         }
       })
+      .populate({
+        path: 'product',
+        populate: {
+          path: 'category'
+        }
+      })
+      .populate({
+        path: 'product',
+        populate: {
+          path: 'subCategory'
+        }
+      })
       .populate('winner')
       .populate('bannedUsers')
   }
@@ -55,7 +67,6 @@ export async function updateBiddingProduct(opts = {}, payload) {
     return await BiddingProduct.updateOne(queryObj, payload)
   }
   catch (err) {
-    
     throw new ServerError({name: 'Something error when update bidding product.', err})
   }
 }

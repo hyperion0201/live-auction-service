@@ -41,12 +41,14 @@ async function initialize(cb) {
     // when server receive a bidding event
     socket.on('bidding', async payload => {
       const biddingFromDetail = get(payload, 'biddingFromDetail', false)
+      const {biddingProductId} = payload
 
       debug.log('payload bidding: ', payload)
       
       const biddingProduct = await biddingProductService.getBiddingProduct({
         _id: biddingProductId
       })
+      
       const result = await registerNewBidding(payload, biddingProduct)
       
       debug.log(`${ns}:bidding`, result)
@@ -59,12 +61,6 @@ async function initialize(cb) {
       })
 
       // find all user have at least 1 bid to current product
-      const {biddingProductId} = payload
-
-      // find current winner
-      const biddingProduct = await biddingProductService.getBiddingProduct({
-        _id: biddingProductId
-      })
 
       const currentWinner = get(biddingProduct, 'winner.email')
       const productName = get(biddingProduct, 'biddingProduct.product.name')

@@ -22,6 +22,7 @@ export async function getBiddingProduct(opts = {}) {
         }
       })
       .populate('winner')
+      .populate('bannedUsers')
   }
   catch (err) {
     throw new ServerError({name: 'Something error when get detail bidding product.', err})
@@ -40,6 +41,7 @@ export async function getAllBiddingProduct(opts = {}) {
         }
       })
       .populate('winner')
+      .populate('bannedUsers')
   }
   catch (err) {
     throw new ServerError({name: 'Something error when get all bidding product.', err})

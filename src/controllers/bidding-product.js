@@ -41,6 +41,25 @@ router.get('/:id', authenticate(), async (req, res, next) => {
   }
 })
 
+router.post('/:id/ban-user', authenticate(), async (req, res, next) => {
+  const {userIds = []} = req.body
+  const id = req.params.id
+  try {
+    await serviceBiddingProduct.updateBiddingProduct({
+      _id: id
+    }, {
+      $push: {bannedUsers: {$each: userIds}}
+    })
+    
+    res.json({
+      message: 'Successfully banned user.'
+    })
+  }
+  catch (err) {
+    next(err)
+  }
+})
+
 router.patch('/:id', authenticate(), async (req, res, next) => {
   const id = req.params.id
   const payload = req.body

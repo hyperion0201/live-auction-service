@@ -18,11 +18,6 @@ const jobHandler = async (bProduct) => {
 
   // Mark bidding product was ended.
   try {
-    await biddingProductService.updateBiddingProduct({
-      _id: bProductId
-    
-    })
-    
     // send email to winner if was found
     if (winner) {
 

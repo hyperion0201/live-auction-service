@@ -20,7 +20,11 @@ const schema = mongoose.Schema({
   winner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
-  }
+  },
+  bannedUsers: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }]
 }, {timestamp: true})
 
 export default mongoose.model('BiddingProduct', schema)

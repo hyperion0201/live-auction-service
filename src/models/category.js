@@ -1,8 +1,11 @@
 import mongoose from 'mongoose'
 
-const schema = mongoose.Schema({
-  name: String
-})
+const schema = mongoose.Schema(
+  {
+    name: String
+  },
+  {timestamp: true}
+)
 
 // Support full text search by category name
 schema.index({name: 'text'})

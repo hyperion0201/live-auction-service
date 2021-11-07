@@ -1,12 +1,15 @@
 import mongoose from 'mongoose'
 
-const schema = mongoose.Schema({
-  name: String,
-  category: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'ProductCategory'
-  }
-})
+const schema = mongoose.Schema(
+  {
+    name: String,
+    category: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'ProductCategory'
+    }
+  },
+  {timestamp: true}
+)
 
 // Support full text search by sub-category name
 schema.index({name: 'text'})

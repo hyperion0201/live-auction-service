@@ -44,7 +44,10 @@ async function initialize(cb) {
 
       debug.log('payload bidding: ', payload)
       
-      const result = await registerNewBidding(payload)
+      const biddingProduct = await biddingProductService.getBiddingProduct({
+        _id: biddingProductId
+      })
+      const result = await registerNewBidding(payload, biddingProduct)
       
       debug.log(`${ns}:bidding`, result)
       // todo: update db, then broadcast to all active clients

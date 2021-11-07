@@ -15,6 +15,12 @@ export async function getProduct(opts = {}) {
   
   try {
     return await Product.findOne(queryObj)
+      .populate({
+        path: 'category'
+      })
+      .populate({
+        path: 'subCategory'
+      })
   }
   catch (err) {
     throw new ServerError({name: 'Something error when get detail product.', err})
@@ -26,6 +32,12 @@ export async function getAllProduct(opts = {}) {
   
   try {
     return await Product.find(queryObj)
+      .populate({
+        path: 'category'
+      })
+      .populate({
+        path: 'subCategory'
+      })
   }
   catch (err) {
     throw new ServerError({name: 'Something error when get all product.', err})

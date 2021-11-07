@@ -1,7 +1,6 @@
 import get from 'lodash/get'
 import {updateBiddingProduct, getAllBiddingProduct} from './bidding-product'
 import {createBiddingRecord} from './bidding-record'
-import sendEmail from './email'
 
 export async function registerNewBidding(payload = {}) {
   const biddingProductId = get(payload, 'biddingProductId')
@@ -9,7 +8,8 @@ export async function registerNewBidding(payload = {}) {
   await updateBiddingProduct({
     _id: biddingProductId
   }, {
-    currentPrice: get(payload, 'price')
+    currentPrice: get(payload, 'price'),
+    winner: userId
   })
 
   await createBiddingRecord({

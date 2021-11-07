@@ -10,6 +10,8 @@ const schema = mongoose.Schema({
     ref: 'BiddingProduct'
   },
   biddingPrice: Number
+}, {
+  timestamp: true
 })
 
 export default mongoose.model('BiddingRecord', schema)

@@ -106,6 +106,6 @@ dist
 # macOS
 .DS_Store
 
-public/
+public/uploads/*
 
 package-lock.json

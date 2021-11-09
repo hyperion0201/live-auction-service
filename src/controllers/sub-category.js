@@ -1,6 +1,7 @@
 import express from 'express'
 import {VERSION_API} from '../constants'
 import {authenticate} from '../middlewares/auth'
+import productService from '../services/product'
 import * as serviceSubCategory from '../services/sub-category'
 import {HTTP_STATUS_CODES} from '../utils/constants'
 
@@ -57,6 +58,14 @@ router.patch('/:id', authenticate(), async (req, res, next) => {
 router.delete('/:id', authenticate(), async (req, res, next) => {
   const id = req.params.id
   try {
+    const productsWithSubCategory = await productService.getAllProduct({
+      subCategory: id
+    })
+    
+    if (productsWithSubCategory.length > 0) {
+      return res.status(HTTP_STATUS_CODES.FORBIDDEN)
+        .json({message: 'Can not remove this sub category because there are some products belong to it'})
+    }
     await serviceSubCategory.deleteSubCategory({_id: id})
     res.json({message: 'Delete success'})
   }

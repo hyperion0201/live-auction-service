@@ -2,6 +2,7 @@ import express from 'express'
 import {VERSION_API} from '../constants'
 import {authenticate} from '../middlewares/auth'
 import * as categoryService from '../services/category'
+import * as productService from '../services/product'
 import {HTTP_STATUS_CODES} from '../utils/constants'
 
 const router = express.Router()
@@ -60,6 +61,15 @@ router.delete('/:id', authenticate(), async (req, res, next) => {
   const id = req.params.id
 
   try {
+    const productsWithCategory = await productService.getAllProduct({
+      category: id
+    })
+    
+    if (productsWithCategory.length > 0) {
+      return res.status(HTTP_STATUS_CODES.FORBIDDEN)
+        .json({message: 'Can not remove category because there are some products belong to it'})
+    }
+
     await categoryService.deleteOneCategory({_id: id})
     res.json({message: 'Delete success'})
   }

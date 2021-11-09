@@ -49,10 +49,10 @@ router.post('/', async (req, res, next) => {
 })
 
 router.get('/', authenticate(), async (req, res, next) => {
-  const opts = {createBy: req.user._id}
+  // const opts = {createBy: req.user._id}
   
   try {
-    const product = await serviceProduct.getAllProduct(opts)
+    const product = await serviceProduct.getAllProduct()
     res.json(product)
   }
   catch (err) {

@@ -44,7 +44,7 @@ router.get('/:id', authenticate(), async (req, res, next) => {
 router.get('/product/:id', authenticate(), async (req, res, next) => {
   const id = req.params.id
   try {
-    const biddingRecord = await serviceBiddingRecord.getBiddingRecord({biddingProduct: id})
+    const biddingRecord = await serviceBiddingRecord.getAllBiddingRecord({biddingProduct: id})
     if (!biddingRecord) {
       return res.status(HTTP_STATUS_CODES.NOT_FOUND).json({message: 'not found'})
     }

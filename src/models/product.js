@@ -19,7 +19,12 @@ const schema = mongoose.Schema(
       ref: 'SubCategory'
     }
   },
-  {timestamp: true}
+  {
+    timestamp: {
+      createdAt: 'createdAt',
+      updatedAt: 'updatedAt'
+    }
+  }
 )
 
 // Support full text search with product name

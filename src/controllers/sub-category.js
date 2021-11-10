@@ -7,7 +7,7 @@ import {HTTP_STATUS_CODES} from '../utils/constants'
 
 const router = express.Router()
 
-router.post('/', async (req, res, next) => {
+router.post('/', authenticate({requiredAdmin: true}), async (req, res, next) => {
   const payload = req.body
   
   try {
@@ -43,7 +43,7 @@ router.get('/:id', authenticate(), async (req, res, next) => {
   }
 })
 
-router.patch('/:id', authenticate(), async (req, res, next) => {
+router.patch('/:id', authenticate({requiredAdmin: true}), async (req, res, next) => {
   const id = req.params.id
   const payload = req.body
   try {
@@ -55,7 +55,7 @@ router.patch('/:id', authenticate(), async (req, res, next) => {
   }
 })
 
-router.delete('/:id', authenticate(), async (req, res, next) => {
+router.delete('/:id', authenticate({requiredAdmin: true}), async (req, res, next) => {
   const id = req.params.id
   try {
     const productsWithSubCategory = await productService.getAllProduct({

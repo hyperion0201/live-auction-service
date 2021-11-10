@@ -27,10 +27,7 @@ async function send(to, subject, content) {
     debug.log(ns, `Sending to ${to}: OK.`)
   }
   catch (err) {
-    throw new ServerError({
-      name: 'Something error when send email.',
-      err
-    })
+    throw new ServerError({name: 'Something error when send email.', err})
   }
 }
 

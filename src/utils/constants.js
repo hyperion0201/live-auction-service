@@ -2,7 +2,6 @@ import keyMirror from 'keymirror'
 
 export const USER_ROLES = keyMirror({
   ADMIN: null,
-  USER: null,
   SELLER: null,
   BIDDER: null
 })

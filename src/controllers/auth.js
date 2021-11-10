@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 import express from 'express'
 import get from 'lodash/get'
+
 import pick from 'lodash/pick'
 import {RESET_PASSWORD_SECRET} from '../configs'
 import {VERSION_API} from '../constants'
@@ -15,7 +16,7 @@ import {encrypt, decrypt} from '../utils/crypto'
 import {generateAccessToken} from '../utils/jwt'
 import {verifyPasswordSync, generateResetPassword} from '../utils/password'
 
-const DASHBOARD_URL = 'https://online-exam-2021.herokuapp.com'
+const DASHBOARD_URL = 'http://localhost:3000'
 
 const router = express.Router()
 
@@ -49,11 +50,7 @@ router.get('/google/callback', async (req, res, next) => {
       let user = await userService.isUserWithEmailExist(email)
       if (!user) {
         user = await userService.createUser(
-          {
-            email,
-            role: enums.USER_ROLES.USER,
-            fullname: name
-          },
+          {email, role: enums.USER_ROLES.BIDDER, fullName: name},
           {setVerified: true}
         )
       }
@@ -221,14 +218,8 @@ router.post('/reset-password', async (req, res, next) => {
 router.get('/admin/all', authenticate({requiredAdmin: true}), async (req, res, next) => {
   try {
     const users = await userService.getAllUsers()
-
-    const userRes = users.map((item) => {
-      const user = {...get(item, 'dataValues')}
-      delete user.password
-      return user
-    })
-
-    res.json(userRes)
+    
+    res.json(users.map((user) => pick(user, ['_id', 'fullName', 'email', 'role', 'status'])))
   }
   catch (err) {
     next(err)

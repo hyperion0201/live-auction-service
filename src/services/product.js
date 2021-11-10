@@ -21,6 +21,9 @@ export async function getProduct(opts = {}) {
       .populate({
         path: 'subCategory'
       })
+      .populate({
+        path: 'createBy'
+      })
   }
   catch (err) {
     throw new ServerError({name: 'Something error when get detail product.', err})
@@ -37,6 +40,9 @@ export async function getAllProduct(opts = {}) {
       })
       .populate({
         path: 'subCategory'
+      })
+      .populate({
+        path: 'createBy'
       })
   }
   catch (err) {

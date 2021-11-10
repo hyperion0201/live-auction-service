@@ -8,12 +8,7 @@ const schema = mongoose.Schema(
       ref: 'Product'
     }
   },
-  {
-    timestamp: {
-      createdAt: 'createdAt',
-      updatedAt: 'updatedAt'
-    }
-  }
+  {timestamps: {createdAt: 'createdAt', updatedAt: 'updatedAt'}}
 )
 
 export default mongoose.model('ProductDescription', schema)

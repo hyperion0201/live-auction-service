@@ -26,10 +26,7 @@ const schema = mongoose.Schema({
     ref: 'User'
   }]
 }, {
-  timestamp: {
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
-  }
+  timestamps: {createdAt: 'createdAt', updatedAt: 'updatedAt'}
 })
 
 export default mongoose.model('BiddingProduct', schema)

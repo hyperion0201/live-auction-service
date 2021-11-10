@@ -12,12 +12,7 @@ const schema = mongoose.Schema(
     },
     biddingPrice: Number
   },
-  {
-    timestamp: {
-      createdAt: 'createdAt',
-      updatedAt: 'updatedAt'
-    }
-  }
+  {timestamps: {createdAt: 'createdAt', updatedAt: 'updatedAt'}}
 )
 
 export default mongoose.model('BiddingRecord', schema)

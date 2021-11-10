@@ -18,12 +18,7 @@ const schema = mongoose.Schema(
       default: USER_STATUS.NOT_VERIFIED
     }
   },
-  {
-    timestamp: {
-      createdAt: 'createdAt',
-      updatedAt: 'updatedAt'
-    }
-  }
+  {timestamps: {createdAt: 'createdAt', updatedAt: 'updatedAt'}}
 )
 
 export default mongoose.model('User', schema)

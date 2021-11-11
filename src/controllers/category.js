@@ -2,6 +2,7 @@ import express from 'express'
 import {VERSION_API} from '../constants'
 import {authenticate} from '../middlewares/auth'
 import * as categoryService from '../services/category'
+import * as productService from '../services/product'
 import {HTTP_STATUS_CODES} from '../utils/constants'
 
 const router = express.Router()
@@ -33,7 +34,7 @@ router.get('/:id', authenticate(), async (req, res, next) => {
   }
 })
 
-router.post('/', authenticate(), async (req, res, next) => {
+router.post('/', authenticate({requiredAdmin: true}), async (req, res, next) => {
   const payload = req.body
   try {
     const newCategory = await categoryService.addNew(payload)
@@ -44,7 +45,7 @@ router.post('/', authenticate(), async (req, res, next) => {
   }
 })
 
-router.patch('/:id', authenticate(), async (req, res, next) => {
+router.patch('/:id', authenticate({requiredAdmin: true}), async (req, res, next) => {
   const id = req.params.id
   const payload = req.body
   try {
@@ -56,10 +57,19 @@ router.patch('/:id', authenticate(), async (req, res, next) => {
   }
 })
 
-router.delete('/:id', authenticate(), async (req, res, next) => {
+router.delete('/:id', authenticate({requiredAdmin: true}), async (req, res, next) => {
   const id = req.params.id
 
   try {
+    const productsWithCategory = await productService.getAllProduct({
+      category: id
+    })
+    
+    if (productsWithCategory.length > 0) {
+      return res.status(HTTP_STATUS_CODES.FORBIDDEN)
+        .json({message: 'Can not remove category because there are some products belong to it'})
+    }
+
     await categoryService.deleteOneCategory({_id: id})
     res.json({message: 'Delete success'})
   }

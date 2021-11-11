@@ -25,6 +25,8 @@ const schema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   }]
-}, {timestamp: true})
+}, {
+  timestamps: {createdAt: 'createdAt', updatedAt: 'updatedAt'}
+})
 
 export default mongoose.model('BiddingProduct', schema)

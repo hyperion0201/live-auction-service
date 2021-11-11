@@ -4,13 +4,13 @@ import {USER_ROLES, USER_STATUS} from '../utils/constants'
 const schema = mongoose.Schema(
   {
     email: String,
-    username: String,
+    address: String,
     fullName: String,
     password: String,
     role: {
       type: String,
       enum: Object.values(USER_ROLES),
-      default: USER_ROLES.USER
+      default: USER_ROLES.BIDDER
     },
     status: {
       type: String,
@@ -18,7 +18,7 @@ const schema = mongoose.Schema(
       default: USER_STATUS.NOT_VERIFIED
     }
   },
-  {timestamp: true}
+  {timestamps: {createdAt: 'createdAt', updatedAt: 'updatedAt'}}
 )
 
 export default mongoose.model('User', schema)

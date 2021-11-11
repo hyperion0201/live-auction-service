@@ -75,7 +75,7 @@ export function requireStatusRole() {
   return async (req, res, next) => {
     const {role = '', status = ''} = get(req, 'body')
     const StatusArray = [enums.USER_STATUS.DISABLED, enums.USER_STATUS.VERIFIED]
-    const RoleUserArray = [enums.USER_ROLES.ADMIN, enums.USER_ROLES.USER]
+    const RoleUserArray = [enums.USER_ROLES.ADMIN, enums.USER_ROLES.SELLER, enums.USER_ROLES.BIDDER]
 
     if (!StatusArray.includes(status)) {
       return res.status(HTTP_STATUS_CODES.BAD_REQUEST).json({message: 'invalid status'})

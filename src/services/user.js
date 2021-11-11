@@ -13,68 +13,49 @@ export async function createUser(payload = {}, opts = {}) {
     return await User.create({
       ...payload,
       password: hashed,
-      role: enums.USER_ROLES.USER,
+      role: enums.USER_ROLES.BIDDER,
       status: setVerified ? enums.USER_STATUS.VERIFIED : enums.USER_STATUS.NOT_VERIFIED
     })
   }
   catch (err) {
-    throw new ServerError({
-      name: 'Something error when create user.',
-      err
-    })
+    throw new ServerError({name: 'Something error when create user.', err})
   }
 }
 
 export async function getUser(opts = {}) {
-  const queryObj = {
-    ...opts
-  }
+  const queryObj = {...opts}
 
   try {
     return await User.findOne(queryObj)
   }
   catch (err) {
-    throw new ServerError({
-      name: 'Something error when find user.', err
-    })
+    throw new ServerError({name: 'Something error when find user.', err})
   }
 }
 
 export async function isUserWithEmailExist(userEmail) {
   try {
-    return await User.findOne({
-      email: userEmail
-    })
+    return await User.findOne({email: userEmail})
   }
   catch (err) {
-    throw new ServerError({
-      name: 'Something error when check user exists.',
-      err
-    })
+    throw new ServerError({name: 'Something error when check user exists.', err})
   }
 }
 
 export async function getAllUsers(opts = {}) {
-  const queryObj = {
-    ...opts
-  }
+  const queryObj = {...opts}
 
   try {
     return await User.find(queryObj)
   }
   catch (err) {
-    throw new ServerError({
-      name: 'Something error when get all users.',
-      err
-    })
+    throw new ServerError({name: 'Something error when get all users.', err})
   }
 }
 
 export async function updateUser(opts = {}, payload) {
   delete payload.password
-  const queryObj = {
-    ...opts
-  }
+  const queryObj = {...opts}
 
   try {
     return await User.updateOne(queryObj, payload)
@@ -88,9 +69,7 @@ export async function updateUser(opts = {}, payload) {
 }
 
 export async function deleteUser(opts = {}) {
-  const queryObj = {
-    ...opts
-  }
+  const queryObj = {...opts}
 
   try {
     return await User.deleteOne(queryObj)
@@ -105,14 +84,10 @@ export async function deleteUser(opts = {}) {
 export async function updatePassword(opts = {}, newPassword) {
   // hash password
   const hashed = hashPasswordSync(newPassword)
-  const queryObj = {
-    ...opts
-  }
+  const queryObj = {...opts}
 
   try {
-    return await User.updateOne(queryObj, {
-      password: hashed
-    })
+    return await User.updateOne(queryObj, {password: hashed})
   }
   catch (err) {
     throw new ServerError({
@@ -125,9 +100,7 @@ export async function updatePassword(opts = {}, newPassword) {
 export async function isAdmin(userOrId) {
   let userObj = userOrId
   if (isNumber(userOrId)) {
-    userObj = await getUser({
-      _id: userOrId
-    })
+    userObj = await getUser({_id: userOrId})
   }
 
   return get(userObj, 'role') === enums.USER_ROLES.ADMIN

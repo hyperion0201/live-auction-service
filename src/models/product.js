@@ -5,7 +5,6 @@ const schema = mongoose.Schema(
     name: String,
     imageUrl: String,
     extraImages: Array,
-    description: String,
     createBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User'
@@ -19,7 +18,7 @@ const schema = mongoose.Schema(
       ref: 'SubCategory'
     }
   },
-  {timestamp: true}
+  {timestamps: {createdAt: 'createdAt', updatedAt: 'updatedAt'}}
 )
 
 // Support full text search with product name

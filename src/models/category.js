@@ -4,7 +4,7 @@ const schema = mongoose.Schema(
   {
     name: String
   },
-  {timestamp: true}
+  {timestamps: {createdAt: 'createdAt', updatedAt: 'updatedAt'}}
 )
 
 // Support full text search by category name

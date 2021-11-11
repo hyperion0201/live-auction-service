@@ -49,24 +49,6 @@ router.post('/', async (req, res, next) => {
   }
 })
 
-router.get('/trending', async (req, res, next) => {
-  
-  try {
-    const biddingProducts = await serviceBiddingProduct.getAllBiddingProduct()
-
-    const topTimeEnd = orderBy(biddingProducts, ['endTime'], ['desc'])
-    const topPrice = orderBy(biddingProducts, ['currentPrice'], ['desc'])
-
-    res.json({
-      trendingTimeEnd: (topTimeEnd || []).slice(0, 5),
-      trendingPrice: (topPrice || []).slice(0, 5)
-    })
-  }
-  catch (err) {
-    next(err)
-  }
-})
-
 router.get('/', authenticate(), async (req, res, next) => {
   // const opts = {createBy: req.user._id}
   

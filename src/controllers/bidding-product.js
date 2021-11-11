@@ -1,5 +1,6 @@
 import express from 'express'
 import get from 'lodash/get'
+import orderBy from 'lodash/orderBy'
 import uniqBy from 'lodash/uniqBy'
 import {VERSION_API} from '../constants'
 import {authenticate} from '../middlewares/auth'
@@ -26,6 +27,24 @@ router.get('/', authenticate(), async (req, res, next) => {
   try {
     const biddingProducts = await serviceBiddingProduct.getAllBiddingProduct()
     res.json(biddingProducts)
+  }
+  catch (err) {
+    next(err)
+  }
+})
+
+router.get('/trending', async (req, res, next) => {
+  
+  try {
+    const biddingProducts = await serviceBiddingProduct.getAllBiddingProduct()
+
+    const topTimeEnd = orderBy(biddingProducts, ['endTime'], ['desc'])
+    const topPrice = orderBy(biddingProducts, ['currentPrice'], ['desc'])
+
+    res.json({
+      trendingTimeEnd: (topTimeEnd || []).slice(0, 5),
+      trendingPrice: (topPrice || []).slice(0, 5)
+    })
   }
   catch (err) {
     next(err)

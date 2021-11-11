@@ -2,6 +2,7 @@ import express from 'express'
 import fs from 'fs'
 import get from 'lodash/get'
 
+import orderBy from 'lodash/orderBy'
 import mongoose from 'mongoose'
 import multer from 'multer'
 import path from 'path'
@@ -9,7 +10,7 @@ import {v4 as uuidv4} from 'uuid'
 import {BASE_API_URL} from '../configs'
 import {VERSION_API} from '../constants'
 import {authenticate} from '../middlewares/auth'
-
+import * as serviceBiddingProduct from '../services/bidding-product'
 import * as serviceProduct from '../services/product.js'
 import {HTTP_STATUS_CODES} from '../utils/constants'
 
@@ -42,6 +43,24 @@ router.post('/', async (req, res, next) => {
   try {
     const product = await serviceProduct.createProduct(payload)
     res.json(product)
+  }
+  catch (err) {
+    next(err)
+  }
+})
+
+router.get('/trending', async (req, res, next) => {
+  
+  try {
+    const biddingProducts = await serviceBiddingProduct.getAllBiddingProduct()
+
+    const topTimeEnd = orderBy(biddingProducts, ['endTime'], ['desc'])
+    const topPrice = orderBy(biddingProducts, ['currentPrice'], ['desc'])
+
+    res.json({
+      trendingTimeEnd: (topTimeEnd || []).slice(0, 5),
+      trendingPrice: (topPrice || []).slice(0, 5)
+    })
   }
   catch (err) {
     next(err)

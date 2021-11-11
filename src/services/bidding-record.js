@@ -46,6 +46,17 @@ export async function getAllBiddingRecord(opts = {}) {
   }
 }
 
+export async function getAllStandardBiddingRecord(opts = {}) {
+  const queryObj = {...opts}
+
+  try {
+    return await BiddingRecord.find(queryObj)
+  }
+  catch (err) {
+    throw new ServerError({name: 'Something error when get all bidding record.', err})
+  }
+}
+
 export async function updateBiddingRecord(opts = {}, payload) {
   const queryObj = {...opts}
 

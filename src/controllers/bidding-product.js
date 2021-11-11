@@ -1,8 +1,6 @@
 import express from 'express'
-import _ from 'lodash'
+
 import get from 'lodash/get'
-import mapKeys from 'lodash/mapKeys'
-import orderBy from 'lodash/orderBy'
 import uniqBy from 'lodash/uniqBy'
 import {VERSION_API} from '../constants'
 import {authenticate} from '../middlewares/auth'
@@ -10,7 +8,6 @@ import Category from '../models/category'
 import Product from '../models/product.js'
 import SubCategory from '../models/sub-category'
 import * as serviceBiddingProduct from '../services/bidding-product'
-import * as serviceBiddingRecord from '../services/bidding-record'
 import {HTTP_STATUS_CODES} from '../utils/constants'
 
 const router = express.Router()
@@ -30,39 +27,6 @@ router.get('/', authenticate(), async (req, res, next) => {
   try {
     const biddingProducts = await serviceBiddingProduct.getAllBiddingProduct()
     res.json(biddingProducts)
-  }
-  catch (err) {
-    next(err)
-  }
-})
-
-router.get('/trending', async (req, res, next) => {
-  
-  try {
-    const biddingProducts = await serviceBiddingProduct.getAllBiddingProduct()
-    const standardBiddingRecords = await serviceBiddingRecord.getAllStandardBiddingRecord()
-
-    const topTimeEnd = orderBy(biddingProducts, ['endTime'], ['desc'])
-    const topPrice = orderBy(biddingProducts, ['currentPrice'], ['desc'])
-
-    const objProducts = mapKeys(biddingProducts,
-      function (o) {
-        return o._id
-      })
-      
-    const topBidding = orderBy(_.chain(standardBiddingRecords)
-      .groupBy('biddingProduct')
-      .map((value, key) => ({key, total: (value || []).length}))
-      .value(), ['total'], ['desc']).map(bidding => ({
-      ...bidding,
-      ...objProducts[bidding.key]
-    }))
-
-    res.json({
-      trendingTimeEnd: (topTimeEnd || []).slice(0, 5),
-      trendingPrice: (topPrice || []).slice(0, 5),
-      topBidding: (topBidding || []).slice(0, 5)
-    })
   }
   catch (err) {
     next(err)

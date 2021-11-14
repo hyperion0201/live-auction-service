@@ -1,9 +1,9 @@
 import express from 'express'
-import {VERSION_API} from '../constants'
-import {authenticate} from '../middlewares/auth'
+import {VERSION_API} from '../constants.js'
+import {authenticate} from '../middlewares/auth.js'
 
-import * as serviceProductDescription from '../services/product-description'
-import {HTTP_STATUS_CODES} from '../utils/constants'
+import * as serviceProductDescription from '../services/product-description.js'
+import {HTTP_STATUS_CODES} from '../utils/constants.js'
 
 const router = express.Router()
 

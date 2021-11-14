@@ -1,10 +1,10 @@
 import jwt from 'jsonwebtoken'
-import get from 'lodash/get'
-import {JWT_SECRET} from '../configs'
-import {getUser, isAdmin} from '../services/user'
-import {HTTP_STATUS_CODES} from '../utils/constants'
-import * as enums from '../utils/constants'
-import ServerError from '../utils/custom-error'
+import get from 'lodash/get.js'
+import {JWT_SECRET} from '../configs.js'
+import {getUser, isAdmin} from '../services/user.js'
+import {HTTP_STATUS_CODES} from '../utils/constants.js'
+import * as enums from '../utils/constants.js'
+import ServerError from '../utils/custom-error.js'
 
 function extractTokenFromRequest(req) {
   const authHeader = get(req, 'headers.authorization')

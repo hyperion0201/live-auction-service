@@ -1,5 +1,5 @@
-import ProductDescription from '../models/product-description'
-import ServerError from '../utils/custom-error'
+import ProductDescription from '../models/product-description.js'
+import ServerError from '../utils/custom-error.js'
 
 export async function createProductDescription(payload = {}, opts = {}) {
   try {

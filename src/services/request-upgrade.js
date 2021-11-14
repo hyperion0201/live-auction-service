@@ -1,5 +1,5 @@
-import RequestUpgrade from '../models/request-upgrade'
-import ServerError from '../utils/custom-error'
+import RequestUpgrade from '../models/request-upgrade.js'
+import ServerError from '../utils/custom-error.js'
 
 export async function create(payload = {}) {
   try {

@@ -1,9 +1,9 @@
-import get from 'lodash/get'
-import isNumber from 'lodash/isNumber'
-import User from '../models/user'
-import * as enums from '../utils/constants'
-import ServerError from '../utils/custom-error'
-import {hashPasswordSync} from '../utils/password'
+import get from 'lodash/get.js'
+import isNumber from 'lodash/isNumber.js'
+import User from '../models/user.js'
+import * as enums from '../utils/constants.js'
+import ServerError from '../utils/custom-error.js'
+import {hashPasswordSync} from '../utils/password.js'
 
 export async function createUser(payload = {}, opts = {}) {
   const {password} = payload

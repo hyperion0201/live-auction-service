@@ -3,8 +3,8 @@ import {
   SERVER_PORT, JWT_SECRET,
   GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET
-} from '../configs'
-import ServerError from '../utils/custom-error'
+} from '../configs.js'
+import ServerError from '../utils/custom-error.js'
 
 const OAuth2 = google.auth.OAuth2
 

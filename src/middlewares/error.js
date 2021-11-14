@@ -1,5 +1,5 @@
 import {debug} from 'debug'
-import {HTTP_STATUS_CODES} from '../utils/constants'
+import {HTTP_STATUS_CODES} from '../utils/constants.js'
 
 const FALLBACK_ERROR_NS = 'error-fallback'
 

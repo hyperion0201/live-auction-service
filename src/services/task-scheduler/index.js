@@ -1,9 +1,9 @@
 import debug from 'debug'
-import get from 'lodash/get'
+import get from 'lodash/get.js'
 import schedule from 'node-schedule'
-import {SCHEDULE_TASK_INTERVAL_IN_MINUTE} from '../../configs'
-import * as biddingProductService from '../bidding-product'
-import sendEmail from '../email'
+import {SCHEDULE_TASK_INTERVAL_IN_MINUTE} from '../../configs.js'
+import * as biddingProductService from '../bidding-product.js'
+import sendEmail from '../email.js'
 
 // Defining background task which handle the end bidding event
 

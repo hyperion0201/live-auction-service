@@ -1,8 +1,6 @@
 import express from 'express'
 import fs from 'fs'
 import get from 'lodash/get'
-
-import orderBy from 'lodash/orderBy'
 import mongoose from 'mongoose'
 import multer from 'multer'
 import path from 'path'
@@ -10,7 +8,6 @@ import {v4 as uuidv4} from 'uuid'
 import {BASE_API_URL} from '../configs'
 import {VERSION_API} from '../constants'
 import {authenticate} from '../middlewares/auth'
-import * as serviceBiddingProduct from '../services/bidding-product'
 import * as serviceProduct from '../services/product.js'
 import {HTTP_STATUS_CODES} from '../utils/constants'
 
@@ -38,11 +35,13 @@ const upload = multer({
 
 const router = express.Router()
 
-router.post('/', async (req, res, next) => {
+router.post('/', authenticate(), async (req, res, next) => {
   const payload = req.body
+
   try {
-    const product = await serviceProduct.createProduct(payload)
+    const product = await serviceProduct.createProduct({...payload, createBy: get(req, 'user._id')})
     res.json(product)
+    
   }
   catch (err) {
     next(err)
@@ -50,7 +49,6 @@ router.post('/', async (req, res, next) => {
 })
 
 router.get('/', authenticate(), async (req, res, next) => {
-  // const opts = {createBy: req.user._id}
   
   try {
     const product = await serviceProduct.getAllProduct()

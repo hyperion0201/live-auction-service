@@ -1,5 +1,5 @@
 import get from 'lodash/get'
-import * as moment from 'moment'
+import moment from 'moment'
 import {updateBiddingProduct, getAllBiddingProduct} from './bidding-product'
 import {createBiddingRecord} from './bidding-record'
 
@@ -10,7 +10,7 @@ export async function registerNewBidding(payload = {}, biddingProduct = {}) {
   // if user place a bid in last 5 minutes of the endTime, extend the endTime for 10 mins.
   const endBiddingTime = moment(get(biddingProduct, 'endTime'))
   const timeDiff = moment().diff(endBiddingTime, 'minutes')
-
+  
   const valueChanged = {
     currentPrice: get(payload, 'price'),
     winner: userId

@@ -18,7 +18,13 @@ router.post('/', async (req, res, next) => {
 })
 
 router.get('/', authenticate(), async (req, res, next) => {
+  const productId = req.query.productId
+
   try {
+  if (productId) {
+    const rs = await serviceBiddingRecord.getBiddingRecordsByProductId(productId)
+    return res.json(rs)
+  }
     const biddingRecords = await serviceBiddingRecord.getAllBiddingRecord()
     res.json(biddingRecords)
   }

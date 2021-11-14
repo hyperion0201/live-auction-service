@@ -1,5 +1,7 @@
 import BiddingRecord from '../models/bidding-record'
 import ServerError from '../utils/custom-error'
+import {getBiddingProduct} from './bidding-product'
+import get from 'lodash/get'
 
 export async function createBiddingRecord(payload = {}, opts = {}) {
   try {
@@ -76,5 +78,24 @@ export async function deleteBiddingRecord(opts = {}) {
   }
   catch (err) {
     throw new ServerError({name: 'Something error when delete bidding record.', err})
+  }
+}
+
+export async function getBiddingRecordsByProductId(productId) {
+  try {
+    const biddingProduct = await getBiddingProduct({
+      product: productId
+    })
+
+    const bProductId = get(biddingProduct, '_id')
+
+    if (bProductId) {
+      return await getAllBiddingRecord({
+        biddingProduct: bProductId
+      })
+    }
+  }
+  catch (err) {
+    throw new ServerError({name: 'Something error when get all bidding records.', err})
   }
 }

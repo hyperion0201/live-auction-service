@@ -81,7 +81,7 @@ async function initialize(cb) {
       // find all user have at least 1 bid to current product
 
       const currentWinner = get(biddingProduct, 'winner.email')
-      const productName = get(biddingProduct, 'biddingProduct.product.name')
+      const productName = get(biddingProduct, 'product.name')
 
       const seller = get(biddingProduct, 'product.createBy.email')
 
@@ -163,7 +163,7 @@ async function initialize(cb) {
       // find all user have at least 1 bid to current product
 
       const currentWinner = get(biddingProduct, 'winner.email')
-      const productName = get(biddingProduct, 'biddingProduct.product.name')
+      const productName = get(biddingProduct, 'product.name')
 
       const seller = get(biddingProduct, 'product.createBy.email')
 

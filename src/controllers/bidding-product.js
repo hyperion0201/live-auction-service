@@ -17,6 +17,16 @@ const router = express.Router()
 
 router.post('/', async (req, res, next) => {
   const payload = req.body
+  const existBProduct = await serviceBiddingProduct.getBiddingProduct({
+    product: payload.product
+  })
+
+  if (existBProduct) {
+    return res.status(HTTP_STATUS_CODES.BAD_REQUEST).json({
+      message: 'This product was already on bidding'
+    })
+  }
+
   try {
     const biddingProduct = await serviceBiddingProduct.createBiddingProduct(payload)
     res.json(biddingProduct)

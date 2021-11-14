@@ -52,7 +52,7 @@ async function initialize(cb) {
       const bannedUsers = get(biddingProduct, 'bannedUsers', [])
       let isBanned = false
       bannedUsers.forEach((user) => {
-        if (get(user, '_id') === userId) {
+        if ((get(user, '_id')).toString() === payload.userId) {
           isBanned = true
         }
       })
@@ -135,7 +135,7 @@ async function initialize(cb) {
       const bannedUsers = get(biddingProduct, 'bannedUsers', [])
       let isBanned = false
       bannedUsers.forEach((user) => {
-        if (get(user, '_id') === userId) {
+        if ((get(user, '_id')).toString() === payload.userId) {
           isBanned = true
         }
       })

@@ -30,7 +30,11 @@ export async function getBiddingProduct(opts = {}) {
 }
 
 export async function getAllBiddingProduct(opts = {}) {
-  const queryObj = {...opts}
+  const queryObj = {
+    status: {$ne: 'SOLD'},
+    publicTime: {$lte: Date.now()},
+    ...opts
+  }
 
   try {
     return await BiddingProduct.find(queryObj)

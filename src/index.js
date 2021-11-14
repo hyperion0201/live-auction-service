@@ -71,9 +71,7 @@ async function initialize(cb) {
       
       // todo: update db, then broadcast to all active clients
       io.emit('new-bidding', {
-        payload: {
-          ...result
-        },
+        payload: [...result],
         biddingFromDetail
       })
 
@@ -153,9 +151,9 @@ async function initialize(cb) {
       
       // todo: update db, then broadcast to all active clients
       io.emit('new-buy-now', {
-        payload: {
+        payload: [
           ...result
-        },
+        ],
         biddingFromDetail
       })
 

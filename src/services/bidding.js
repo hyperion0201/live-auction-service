@@ -38,7 +38,7 @@ export async function registerNewBidding(payload = {}, biddingProduct = {}) {
 export async function markBiddingAsCompleted(payload = {}, biddingProduct = {}) {
   const biddingProductId = get(payload, 'biddingProductId')
   const userId = get(payload, 'userId')
-  const price = get(payload, 'price', 0)
+  const price = get(biddingProduct, 'buyNowPrice', 0)
 
   // mark current user as the winner
   await updateBiddingProduct({

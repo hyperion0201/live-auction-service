@@ -9,7 +9,7 @@ import {ROOT_APP_NAMESPACE, SERVER_PORT} from './configs'
 import * as routers from './controllers'
 import {authenticate} from './middlewares/auth'
 import {errorHandler} from './middlewares/error'
-import {registerNewBidding} from './services/bidding'
+import {markBiddingAsCompleted, registerNewBidding} from './services/bidding'
 import * as biddingProductService from './services/bidding-product'
 import sendEmail from './services/email'
 import {registerClient, deregisterClient} from './services/socket'
@@ -106,15 +106,64 @@ async function initialize(cb) {
     // when server receive a buy-now event
     socket.on('buy-now', payload => {
       debug.log('payload buy-now: ', payload)
-      // const {
-      //   productID="",
-      //   userID="",
-      // }=payload
-      // todo: update db, then broadcast to all active clients
-
-      socket.broadcast.emit('sold-out-product', {
-        productID: 200
+      const biddingFromDetail = get(payload, 'biddingFromDetail', false)
+      const {biddingProductId} = payload
+      
+      const biddingProduct = await biddingProductService.getBiddingProduct({
+        _id: biddingProductId
       })
+      
+      const result = await markBiddingAsCompleted(payload, biddingProduct)
+      
+      // todo: update db, then broadcast to all active clients
+      socket.broadcast.emit('new-buy-now', {
+        payload: {
+          ...result
+        },
+        biddingFromDetail
+      })
+
+      // find all user have at least 1 bid to current product
+
+      const currentWinner = get(biddingProduct, 'winner.email')
+      const productName = get(biddingProduct, 'biddingProduct.product.name')
+
+      const seller = get(biddingProduct, 'product.createBy.email')
+
+      // find new biddng user
+      const newUser = await userService.getUser({
+        _id: get(payload, 'userId')
+      })
+
+      sendEmail(newUser.email,
+        '[Live Auction] - You are the winner',
+        `Hi.
+           Congratulation on your bidding. You are the winner since you've chosen to buy instead of bidding.
+           
+           Info:
+               Product name: ${productName}
+               Your buy now price: ${payload.price}
+        `)
+
+      sendEmail(currentWinner,
+        '[Live Auction] - Your bidding was totally closed since someone has bought this product',
+        `Hi.
+           You received this email because someone has bought the product you've bidded on.
+           
+           Info:
+               Product name: ${productName}
+        `)
+
+      sendEmail(seller,
+        '[Live Auction] - Your product was sold',
+        `Hi.
+           You received this email because someone has bought your product .
+           
+           Info:
+               Product name: ${productName}
+               Winner: ${newUser.email}
+        `)
+        
     })
   })
 

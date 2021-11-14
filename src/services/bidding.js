@@ -35,6 +35,25 @@ export async function registerNewBidding(payload = {}, biddingProduct = {}) {
   return getAllBiddingProduct()
 }
 
-export async function markBiddingAsCompleted(payload = {}) {
-    
+export async function markBiddingAsCompleted(payload = {}, biddingProduct = {}) {
+  const biddingProductId = get(payload, 'biddingProductId')
+  const userId = get(payload, 'userId')
+  const price = get(payload, 'price', 0)
+
+  // mark current user as the winner
+  await updateBiddingProduct({
+    _id: biddingProductId
+  }, {
+    status: 'SOLD',
+    winner: userId,
+    currentPrice: price
+  })
+
+  await createBiddingRecord({
+    userId,
+    biddingProduct: biddingProductId,
+    biddingPrice: price
+  })
+  
+  return getAllBiddingProduct()
 }

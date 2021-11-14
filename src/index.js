@@ -67,7 +67,6 @@ async function initialize(cb) {
         return
       }
       
-      
       const result = await registerNewBidding(payload, biddingProduct)
       
       // todo: update db, then broadcast to all active clients

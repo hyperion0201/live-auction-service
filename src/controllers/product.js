@@ -1,15 +1,15 @@
 import express from 'express'
 import fs from 'fs'
-import get from 'lodash/get'
+import get from 'lodash/get.js'
 import mongoose from 'mongoose'
 import multer from 'multer'
 import path from 'path'
 import {v4 as uuidv4} from 'uuid'
-import {BASE_API_URL} from '../configs'
-import {VERSION_API} from '../constants'
-import {authenticate} from '../middlewares/auth'
+import {BASE_API_URL} from '../configs.js'
+import {VERSION_API} from '../constants.js'
+import {authenticate} from '../middlewares/auth.js'
 import * as serviceProduct from '../services/product.js'
-import {HTTP_STATUS_CODES} from '../utils/constants'
+import {HTTP_STATUS_CODES} from '../utils/constants.js'
 
 const storageConfiguration = multer.diskStorage({
   destination: function (req, file, cb) {

@@ -1,9 +1,9 @@
 import express from 'express'
-import get from 'lodash/get'
-import {VERSION_API} from '../constants'
-import {authenticate} from '../middlewares/auth'
-import * as serviceRequestUpgrade from '../services/request-upgrade'
-import {HTTP_STATUS_CODES} from '../utils/constants'
+import get from 'lodash/get.js'
+import {VERSION_API} from '../constants.js'
+import {authenticate} from '../middlewares/auth.js'
+import * as serviceRequestUpgrade from '../services/request-upgrade.js'
+import {HTTP_STATUS_CODES} from '../utils/constants.js'
 
 const router = express.Router()
 

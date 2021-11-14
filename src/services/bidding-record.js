@@ -1,7 +1,7 @@
-import BiddingRecord from '../models/bidding-record'
-import ServerError from '../utils/custom-error'
-import {getBiddingProduct} from './bidding-product'
-import get from 'lodash/get'
+import BiddingRecord from '../models/bidding-record.js'
+import ServerError from '../utils/custom-error.js'
+import {getBiddingProduct} from './bidding-product.js'
+import get from 'lodash/get.js'
 
 export async function createBiddingRecord(payload = {}, opts = {}) {
   try {

@@ -1,5 +1,5 @@
-import Category from '../models/category'
-import ServerError from '../utils/custom-error'
+import Category from '../models/category.js'
+import ServerError from '../utils/custom-error.js'
 
 export async function addNew(payload = {}, opts = {}) {
   try {

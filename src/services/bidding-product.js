@@ -1,5 +1,5 @@
-import BiddingProduct from '../models/bidding-product'
-import ServerError from '../utils/custom-error'
+import BiddingProduct from '../models/bidding-product.js'
+import ServerError from '../utils/custom-error.js'
 
 export async function createBiddingProduct(payload = {}, opts = {}) {
   try {

@@ -1,7 +1,7 @@
-import get from 'lodash/get'
+import get from 'lodash/get.js'
 import moment from 'moment'
-import {updateBiddingProduct, getAllBiddingProduct} from './bidding-product'
-import {createBiddingRecord} from './bidding-record'
+import {updateBiddingProduct, getAllBiddingProduct} from './bidding-product.js'
+import {createBiddingRecord} from './bidding-record.js'
 
 export async function registerNewBidding(payload = {}, biddingProduct = {}) {
   const biddingProductId = get(payload, 'biddingProductId')

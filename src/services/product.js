@@ -1,5 +1,5 @@
 import Product from '../models/product.js'
-import ServerError from '../utils/custom-error'
+import ServerError from '../utils/custom-error.js'
 
 export async function createProduct(payload = {}, opts = {}) {
   try {

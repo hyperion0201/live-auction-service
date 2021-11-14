@@ -1,8 +1,8 @@
 import express from 'express'
-import {VERSION_API} from '../constants'
-import {authenticate} from '../middlewares/auth'
-import * as serviceBiddingRecord from '../services/bidding-record'
-import {HTTP_STATUS_CODES} from '../utils/constants'
+import {VERSION_API} from '../constants.js'
+import {authenticate} from '../middlewares/auth.js'
+import * as serviceBiddingRecord from '../services/bidding-record.js'
+import {HTTP_STATUS_CODES} from '../utils/constants.js'
 
 const router = express.Router()
 

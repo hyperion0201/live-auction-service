@@ -48,6 +48,25 @@ async function initialize(cb) {
       const biddingProduct = await biddingProductService.getBiddingProduct({
         _id: biddingProductId
       })
+
+      const bannedUsers = get(biddingProduct, 'bannedUsers', [])
+      let isBanned = false
+      bannedUsers.forEach((user) => {
+        if (get(user, '_id') === userId) {
+          isBanned = true
+        }
+      })
+      
+      if (isBanned) {
+        socket.emit('reject-bidding', {
+          payload: {
+            isBanned: true,
+            message: 'Can not place a bid on this product because this user was banned.'
+          }
+        })
+        return
+      }
+      
       
       const result = await registerNewBidding(payload, biddingProduct)
       
@@ -104,7 +123,7 @@ async function initialize(cb) {
     })
 
     // when server receive a buy-now event
-    socket.on('buy-now', payload => {
+    socket.on('buy-now', async payload => {
       debug.log('payload buy-now: ', payload)
       const biddingFromDetail = get(payload, 'biddingFromDetail', false)
       const {biddingProductId} = payload
@@ -112,6 +131,24 @@ async function initialize(cb) {
       const biddingProduct = await biddingProductService.getBiddingProduct({
         _id: biddingProductId
       })
+
+      const bannedUsers = get(biddingProduct, 'bannedUsers', [])
+      let isBanned = false
+      bannedUsers.forEach((user) => {
+        if (get(user, '_id') === userId) {
+          isBanned = true
+        }
+      })
+      
+      if (isBanned) {
+        socket.emit('reject-bidding', {
+          payload: {
+            isBanned: true,
+            message: 'Can not place a bid on this product because this user was banned.'
+          }
+        })
+        return
+      }
       
       const result = await markBiddingAsCompleted(payload, biddingProduct)
       

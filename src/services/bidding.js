@@ -1,5 +1,5 @@
 import get from 'lodash/get'
-import * as moment from 'moment'
+import moment from 'moment'
 import {updateBiddingProduct, getAllBiddingProduct} from './bidding-product'
 import {createBiddingRecord} from './bidding-record'
 

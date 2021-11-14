@@ -71,7 +71,7 @@ async function initialize(cb) {
       const result = await registerNewBidding(payload, biddingProduct)
       
       // todo: update db, then broadcast to all active clients
-      socket.broadcast.emit('new-bidding', {
+      io.emit('new-bidding', {
         payload: {
           ...result
         },
@@ -153,7 +153,7 @@ async function initialize(cb) {
       const result = await markBiddingAsCompleted(payload, biddingProduct)
       
       // todo: update db, then broadcast to all active clients
-      socket.broadcast.emit('new-buy-now', {
+      io.emit('new-buy-now', {
         payload: {
           ...result
         },

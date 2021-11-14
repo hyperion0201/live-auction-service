@@ -51,7 +51,6 @@ async function initialize(cb) {
       
       const result = await registerNewBidding(payload, biddingProduct)
       
-      debug.log(`${ns}:bidding`, result)
       // todo: update db, then broadcast to all active clients
       socket.broadcast.emit('new-bidding', {
         payload: {

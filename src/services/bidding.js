@@ -6,13 +6,13 @@ import {createBiddingRecord} from './bidding-record'
 export async function registerNewBidding(payload = {}, biddingProduct = {}) {
   const biddingProductId = get(payload, 'biddingProductId')
   const userId = get(payload, 'userId')
-
+  const price = get(payload, 'price', 0)
   // if user place a bid in last 5 minutes of the endTime, extend the endTime for 10 mins.
   const endBiddingTime = moment(get(biddingProduct, 'endTime'))
   const timeDiff = moment().diff(endBiddingTime, 'minutes')
   
   const valueChanged = {
-    currentPrice: get(payload, 'price'),
+    currentPrice: price,
     winner: userId
   }
 
@@ -28,7 +28,8 @@ export async function registerNewBidding(payload = {}, biddingProduct = {}) {
 
   await createBiddingRecord({
     user: userId,
-    biddingProduct: biddingProductId
+    biddingProduct: biddingProductId,
+    biddingPrice: price
   })
 
   return getAllBiddingProduct()

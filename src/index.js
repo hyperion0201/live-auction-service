@@ -12,6 +12,7 @@ import {errorHandler} from './middlewares/error'
 import {markBiddingAsCompleted, registerNewBidding} from './services/bidding'
 import * as biddingProductService from './services/bidding-product'
 import sendEmail from './services/email'
+// eslint-disable-next-line no-unused-vars
 import {registerClient, deregisterClient} from './services/socket'
 import * as taskScheduler from './services/task-scheduler'
 import * as userService from './services/user'
@@ -211,15 +212,9 @@ async function initialize(cb) {
   app.use(express.json())
   combineRouters(app, routers)
 
-  app.get(
-    '/',
-    authenticate({
-      requiredAdmin: true
-    }),
-    async (req, res, next) => {
-      res.json(req.user)
-    }
-  )
+  app.get('/', authenticate(), async (req, res, next) => {
+    res.json(req.user)
+  })
 
   // error middleware should be register at the end of express instance.
   app.use(errorHandler)

@@ -66,7 +66,7 @@ router.get('/trending', async (req, res, next) => {
       .value(), ['total'], ['desc']).map(bidding => ({
       ...bidding,
       ...objProducts[bidding.key]
-    }))
+    })).map(p => p._doc)
 
     res.json({
       trendingTimeEnd: (topTimeEnd || []).slice(0, 5),

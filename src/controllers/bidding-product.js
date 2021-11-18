@@ -1,5 +1,4 @@
 import express from 'express'
-
 import _ from 'lodash'
 import get from 'lodash/get'
 import mapKeys from 'lodash/mapKeys'
@@ -12,6 +11,8 @@ import Product from '../models/product.js'
 import SubCategory from '../models/sub-category'
 import * as serviceBiddingProduct from '../services/bidding-product'
 import * as serviceBiddingRecord from '../services/bidding-record'
+import sendEmail from '../services/email'
+import * as userService from '../services/user'
 import {HTTP_STATUS_CODES} from '../utils/constants'
 const router = express.Router()
 
@@ -178,6 +179,18 @@ router.post('/:id/ban-user', authenticate(), async (req, res, next) => {
   const {userIds = []} = req.body
   const id = req.params.id
   try {
+    const user = await userService.getUser({_id: userIds[userIds.length - 1]})
+
+    if (user) {
+      const title = '[Live Auction] - Notification banned'
+
+      const content = `Hi.
+      You has been banned.
+      Thanks.`
+      
+      await sendEmail(user.email, title, content)
+    }
+
     await serviceBiddingProduct.updateBiddingProduct({
       _id: id
     }, {

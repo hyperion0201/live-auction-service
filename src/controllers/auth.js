@@ -1,7 +1,6 @@
 /* eslint-disable camelcase */
 import express from 'express'
 import get from 'lodash/get'
-
 import pick from 'lodash/pick'
 import {RESET_PASSWORD_SECRET} from '../configs'
 import {VERSION_API} from '../constants'
@@ -13,7 +12,7 @@ import {HTTP_STATUS_CODES} from '../utils/constants'
 import * as enums from '../utils/constants'
 import {encrypt, decrypt} from '../utils/crypto'
 //import ServerError from '../utils/custom-error'
-import {generateAccessToken, generateRefreshToken } from '../utils/jwt'
+import {generateAccessToken, generateRefreshToken} from '../utils/jwt'
 import {verifyPasswordSync, generateResetPassword} from '../utils/password'
 
 const DASHBOARD_URL = 'http://localhost:3000'
@@ -110,14 +109,14 @@ router.post('/login', async (req, res, next) => {
   let refreshToken = get(user, 'refreshToken')
   if (!refreshToken) {
     // generate refresh token and update user
-     refreshToken = generateRefreshToken({
+    refreshToken = generateRefreshToken({
       id: user.id,
       email: user.email
     })
 
     await userService.updateUser({
       _id: user.id
-    },{
+    }, {
       refreshToken
     })
   }

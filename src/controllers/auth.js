@@ -5,7 +5,7 @@ import get from 'lodash/get'
 import pick from 'lodash/pick'
 import {RESET_PASSWORD_SECRET} from '../configs'
 import {VERSION_API} from '../constants'
-import {authenticate, requireStatusRole} from '../middlewares/auth'
+import {authenticate, ensureRefreshToken, requireStatusRole} from '../middlewares/auth'
 import sendEmail from '../services/email'
 import GoogleOAuth2 from '../services/google-auth'
 import * as userService from '../services/user'
@@ -13,7 +13,7 @@ import {HTTP_STATUS_CODES} from '../utils/constants'
 import * as enums from '../utils/constants'
 import {encrypt, decrypt} from '../utils/crypto'
 //import ServerError from '../utils/custom-error'
-import {generateAccessToken} from '../utils/jwt'
+import {generateAccessToken, generateRefreshToken } from '../utils/jwt'
 import {verifyPasswordSync, generateResetPassword} from '../utils/password'
 
 const DASHBOARD_URL = 'http://localhost:3000'
@@ -107,10 +107,33 @@ router.post('/login', async (req, res, next) => {
     email: user.email
   })
 
+  let refreshToken = get(user, 'refreshToken')
+  if (!refreshToken) {
+    // generate refresh token and update user
+     refreshToken = generateRefreshToken({
+      id: user.id,
+      email: user.email
+    })
+
+    await userService.updateUser({
+      _id: user.id
+    },{
+      refreshToken
+    })
+  }
+
   res.json({
     message: 'Login success.',
     access_token: token,
+    refresh_token: refreshToken,
     role: user.role
+  })
+})
+
+router.post('/refresh-token', ensureRefreshToken(), async (req, res, next) => {
+  // dummy route, no need to handle here since the middleware had already done it.
+  res.json({
+    message: 'Dummy, this message will never be reached.'
   })
 })
 

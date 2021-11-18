@@ -16,7 +16,8 @@ const schema = mongoose.Schema(
       type: String,
       enum: Object.values(USER_STATUS),
       default: USER_STATUS.NOT_VERIFIED
-    }
+    },
+    refreshToken: String
   },
   {timestamps: {createdAt: 'createdAt', updatedAt: 'updatedAt'}}
 )

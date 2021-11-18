@@ -1,17 +1,18 @@
 import jwt from 'jsonwebtoken'
 import get from 'lodash/get'
 import {JWT_SECRET} from '../configs'
-import {getUser, isAdmin} from '../services/user'
+import {getUser, isAdmin, updateUser} from '../services/user'
 import {HTTP_STATUS_CODES} from '../utils/constants'
 import * as enums from '../utils/constants'
 import ServerError from '../utils/custom-error'
+import {generateAccessToken, generateRefreshToken} from '../utils/jwt'
 
-function extractTokenFromRequest(req) {
+export function extractTokenFromRequest(req) {
   const authHeader = get(req, 'headers.authorization')
   return authHeader && authHeader.split(' ')[1]
 }
 
-function verifyToken(token) {
+export function verifyToken(token) {
   return new Promise((resolve, reject) => {
     jwt.verify(token, JWT_SECRET, (err, user) => {
       if (err) reject(err)
@@ -63,10 +64,60 @@ export function authenticate(options = {}) {
       return next()
     }
     catch (err) {
-      next(new ServerError({
-        name: 'Invalid or expired token.',
-        err
-      }))
+      return res.status(HTTP_STATUS_CODES.BAD_REQUEST).send({
+        message: 'Invalid token'
+      })
+    }
+  }
+}
+
+export function ensureRefreshToken(opts = {}) {
+  return async (req, res, next) => {
+    const refreshTokenFromRequest = get(req, 'body.refresh_token')
+
+    if (!refreshTokenFromRequest) {
+      return res.status(HTTP_STATUS_CODES.UNAUTHORIZED).send({
+        message: 'Unauthorized.'
+      })
+    }
+
+    try {
+      const payload = await verifyToken(refreshTokenFromRequest)
+      const user = await getUser({_id: payload.id})
+      if (!user) {
+        return res.status(HTTP_STATUS_CODES.BAD_REQUEST).send({
+          message: 'User not found. Please re login.'
+        })
+      }
+
+      // revoke and re-new refreshToken
+      const newRefreshToken = generateRefreshToken({
+        id: payload.id,
+        email: payload.email
+      })
+
+      await updateUser({
+        _id: payload.id
+      }, {
+        refreshToken: newRefreshToken
+      })
+
+      // generate new access token
+      const token = generateAccessToken({
+        id: payload.id,
+        email: payload.email
+      })
+
+      return res.json({
+        message: 'Refresh token successfully.',
+        access_token: token,
+        refresh_token: newRefreshToken
+      })
+    }
+    catch (err) {
+      return res.status(HTTP_STATUS_CODES.BAD_REQUEST).send({
+        message: 'Invalid token'
+      })
     }
   }
 }

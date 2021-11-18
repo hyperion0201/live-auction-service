@@ -6,3 +6,9 @@ export function generateAccessToken(payload) {
     expiresIn: '12h'
   })
 }
+
+export function generateRefreshToken(payload) {
+  return jwt.sign(payload, JWT_SECRET, {
+    expiresIn: '10d'
+  })
+}

@@ -64,6 +64,35 @@ export async function getAllBiddingProduct(opts = {}) {
   }
 }
 
+export async function getAllBiddingProductHasSold(opts = {}) {
+  try {
+    return await BiddingProduct.find({status: 'SOLD'})
+      .populate({
+        path: 'product',
+        populate: {
+          path: 'createBy'
+        }
+      })
+      .populate({
+        path: 'product',
+        populate: {
+          path: 'category'
+        }
+      })
+      .populate({
+        path: 'product',
+        populate: {
+          path: 'subCategory'
+        }
+      })
+      .populate('winner')
+      .populate('bannedUsers')
+  }
+  catch (err) {
+    throw new ServerError({name: 'Something error when get all bidding product has sold.', err})
+  }
+}
+
 export async function updateBiddingProduct(opts = {}, payload) {
   const queryObj = {...opts}
 

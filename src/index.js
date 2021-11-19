@@ -97,16 +97,18 @@ async function initialize(cb) {
                Product name: ${productName}
                New bidding price: ${payload.price}
         `)
-
-      sendEmail(currentWinner,
-        '[Live Auction] - New bidding higher than your bid',
-        `Hi.
-           You received this email because a new bidding was placed on the product you've bidded on.
-           
-           Info:
-               Product name: ${productName}
-               New bidding price: ${payload.price}
-        `)
+      
+      if (currentWinner) {
+        sendEmail(currentWinner,
+          '[Live Auction] - New bidding higher than your bid',
+          `Hi.
+             You received this email because a new bidding was placed on the product you've bidded on.
+             
+             Info:
+                 Product name: ${productName}
+                 New bidding price: ${payload.price}
+          `)
+      }
 
       sendEmail(seller,
         '[Live Auction] - New bidding on your product',

@@ -50,7 +50,7 @@ export async function markBiddingAsCompleted(payload = {}, biddingProduct = {}) 
   })
 
   await createBiddingRecord({
-    userId,
+    user: userId,
     biddingProduct: biddingProductId,
     biddingPrice: price
   })

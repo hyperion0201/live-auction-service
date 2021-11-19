@@ -47,6 +47,16 @@ router.get('/', authenticate(), async (req, res, next) => {
   }
 })
 
+router.get('/has-sold', authenticate(), async (req, res, next) => {
+  try {
+    const biddingProducts = await serviceBiddingProduct.getAllBiddingProductHasSold()
+    res.json(biddingProducts)
+  }
+  catch (err) {
+    next(err)
+  }
+})
+
 router.get('/trending', async (req, res, next) => {
   
   try {

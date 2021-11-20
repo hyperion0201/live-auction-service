@@ -31,6 +31,6 @@ export const EMAIL_PASSWORD = process.env.EMAIL_PASSWORD || '123456'
 
 export const RESET_PASSWORD_SECRET = process.env.RESET_PASSWORD_SECRET || 'waitingontheworldtochange'
 
-export const BASE_API_URL = process.env.BASE_API_URL || 'localhost:' + SERVER_PORT
+export const BASE_URL = process.env.BASE_URL || 'http://localhost:' + SERVER_PORT
 
 export const SCHEDULE_TASK_INTERVAL_IN_MINUTE = process.env.SCHEDULE_TASK_INTERVAL_IN_MINUTE || 1

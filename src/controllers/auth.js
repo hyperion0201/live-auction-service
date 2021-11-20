@@ -15,7 +15,7 @@ import {encrypt, decrypt} from '../utils/crypto'
 import {generateAccessToken, generateRefreshToken} from '../utils/jwt'
 import {verifyPasswordSync, generateResetPassword} from '../utils/password'
 
-const DASHBOARD_URL = 'http://localhost:3000'
+const DASHBOARD_URL = 'https://auction-web.vercel.app'
 
 const router = express.Router()
 
@@ -153,7 +153,7 @@ router.get('/verification', async (req, res, next) => {
       {status: enums.USER_STATUS.VERIFIED}
     )
 
-    return res.redirect(`${DASHBOARD_URL}/verify-success`)
+    return res.redirect(`${DASHBOARD_URL}/authentication/sign-in`)
   }
   catch (err) {
     return res.redirect(`${DASHBOARD_URL}/verify-error`)
@@ -166,7 +166,7 @@ router.post('/register', async (req, res, next) => {
     const user = await userService.createUser(payload)
     const userEmail = get(user, 'email')
     const code = encrypt(userEmail, RESET_PASSWORD_SECRET)
-    const verifyUrl = `http://localhost:5001/v1/auth/verification?code=${code}`
+    const verifyUrl = `https://wiflyhomework.com/live-auction-api/v1/auth/verification?code=${code}`
     await sendEmail(userEmail,
       '[Live Auction] - Verify your new account',
       `Hi.

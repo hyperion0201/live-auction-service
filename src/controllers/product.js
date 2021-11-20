@@ -5,7 +5,7 @@ import mongoose from 'mongoose'
 import multer from 'multer'
 import path from 'path'
 import {v4 as uuidv4} from 'uuid'
-import {BASE_API_URL} from '../configs'
+import {BASE_URL} from '../configs'
 import {VERSION_API} from '../constants'
 import {authenticate} from '../middlewares/auth'
 import * as serviceProduct from '../services/product.js'
@@ -104,7 +104,7 @@ router.post(
     const productId = get(req, 'body.productId')
     // we just store the full path to database,
     // for retrieving products, we populate themselves with current api base url.
-    const fullPath = `${BASE_API_URL}/public/uploads/${productId}/${req.file.filename}`
+    const fullPath = `${BASE_URL}/public/uploads/${productId}/${req.file.filename}`
 
     try {
 
@@ -132,7 +132,7 @@ router.post(
 
     const paths = req.files.map((file) => {
       
-      return `${BASE_API_URL}/public/uploads/${productId}/${file.filename}`
+      return `${BASE_URL}/public/uploads/${productId}/${file.filename}`
     })
 
     try {
